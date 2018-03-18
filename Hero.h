@@ -11,6 +11,7 @@ class Hero {
 public:
     Hero(sf::Vector2u Windsize);
 
+
     ~Hero();
 
     void Jump();
@@ -33,6 +34,7 @@ public:
 
     void MoveBall();
 
+
 private:
     sf::Vector2u WindowSize;
     sf::Vector2f gravity;
@@ -42,6 +44,7 @@ private:
     bool is_catch;
     sf::RectangleShape doodle;
     sf::CircleShape bullet;
+
 };
 
 
