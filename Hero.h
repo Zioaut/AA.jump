@@ -10,17 +10,30 @@
 class Hero {
 public:
     Hero(sf::Vector2u Windsize);
+
+
     ~Hero();
 
     void Jump();
+
     void Update();
+
     void Shoot();
+
     void Collision();
+
     bool GameOver();
+
     void CreateBullet();
-    void Reneder(sf::RenderWindow& window);
+
+    void Reneder(sf::RenderWindow &window);
+
     void Create_Sethero();
+
     void Reset();
+
+    void MoveBall();
+
 
 private:
     sf::Vector2u WindowSize;
@@ -31,7 +44,7 @@ private:
     bool is_catch;
     sf::RectangleShape doodle;
     sf::CircleShape bullet;
-    sf::Event event;
+
 };
 
 

@@ -6,8 +6,8 @@ int main() {
     Game game;
 
     while (!game.GetWindow ()->IsDone ()) {
-        game.HandleInput ();
         game.Render ();
+        game.HandleInput ();
         game.Update ();
     }
 }
