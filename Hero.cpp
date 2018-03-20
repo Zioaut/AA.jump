@@ -24,7 +24,6 @@ void Hero::Reset() {
     Create_Sethero ();
 }
 
-
 void Hero::Create_Sethero() {
     doodle.setPosition (400, 500);
     doodle.setSize (sf::Vector2f (20, 30));
@@ -32,13 +31,11 @@ void Hero::Create_Sethero() {
 
 }
 
-
 void Hero::CreateBullet() {
     bullet.setRadius (7.5f);
     bullet.setPosition (doodle.getSize ().x / 2 - 10 + doodle.getPosition ().x, doodle.getPosition ().y);
     bullet.setFillColor (sf::Color::Red);
 }
-
 
 void Hero::Update() {
     Jump ();
@@ -46,22 +43,17 @@ void Hero::Update() {
     Collision ();
 }
 
-
 void Hero::Shoot() {
     if (sf::Keyboard::isKeyPressed (sf::Keyboard::Space)) {
         CreateBullet ();
     }
-
-
     //funzione se colpisce nemico;
 }
-
 
 void Hero::Jump() {
     if (GetmaxjumpD () == 0) {
         doodle.move (0, +0.5f * gravity.y * costime);
     }
-
     if (sf::Keyboard::isKeyPressed (sf::Keyboard::D)) {
         sf::Keyboard::Right;
         doodle.move (velocity.x * costime, -velocity.y * costime + 0.5f * gravity.y * costime * costime);
@@ -70,16 +62,12 @@ void Hero::Jump() {
             max_jumpD += 1;
         }
     }
-
-
     if (sf::Keyboard::isKeyPressed (sf::Keyboard::A)) {
         doodle.move (-velocity.x * costime, -velocity.y * costime + 0.5f * gravity.y * costime * costime);
         while (max_jumpL < 10000) {
             max_jumpL += 1;
         }
     }
-
-
 }
 
 void Hero::Collision() {
@@ -90,30 +78,28 @@ void Hero::Collision() {
         doodle.move (-velocity.x * costime, +velocity.y * costime + 0.5f * gravity.y * costime * costime);
     }
 
+    // Collisioni con pareti laterali
 
     if (doodle.getPosition ().y >= 560) {
         doodle.setPosition (doodle.getPosition ().x, 560);
         Setmaxjump ();
         gravity.y = -gravity.y;
-    }
+    }else
     if (doodle.getPosition ().y <= 0) {
         doodle.setPosition (doodle.getPosition ().x, 0);
         Setmaxjump ();
         gravity.y = -gravity.y;
     }
 
-    if (doodle.getPosition ().x >= 770) {
-        doodle.setPosition (30, doodle.getPosition ().y);
+    if (doodle.getPosition ().x <= 0) {
+        doodle.setPosition (780, doodle.getPosition ().y);
+        Setmaxjump ();
+    } else
+    if (doodle.getPosition ().x >= 800) {
+        doodle.setPosition (0, doodle.getPosition ().y);
         Setmaxjump ();
     }
-    if (doodle.getPosition ().x <= 30) {
-        doodle.setPosition (760, doodle.getPosition ().y);
-        Setmaxjump ();
-    }
-
-
 }
-
 
 bool Hero::GameOver() {
     if (is_death) {
@@ -132,7 +118,6 @@ void Hero::Reneder(sf::RenderWindow &window) {
 void Hero::MoveBall() {
     bullet.move (velocity.x * costime, -velocity.y * costime + gravity.y * costime * costime);
 }
-
 
 void Hero::Setmaxjump() {
     max_jumpD = 0;
