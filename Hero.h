@@ -48,10 +48,11 @@ private:
     float costime;
     bool is_catch;
     sf::RectangleShape doodle;
-    sf::CircleShape bullet;
+    sf::CircleShape bullet[4];
     float max_jumpD;
     float max_jumpL;
     sf::RectangleShape land[3];
+    bool ritorno=true;
 };
 
 
