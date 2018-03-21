@@ -9,7 +9,7 @@
 
 class Hero {
 public:
-    Hero(sf::Vector2u Windsize);
+    Hero();
 
     ~Hero();
 
@@ -37,6 +37,8 @@ public:
 
     float GetmaxjumpL() { return max_jumpL; }
     void Setmaxjump();
+    void CreateBlock();
+
 
 private:
     sf::Vector2u WindowSize;
@@ -49,7 +51,7 @@ private:
     sf::CircleShape bullet;
     float max_jumpD;
     float max_jumpL;
-
+    sf::RectangleShape land[3];
 };
 
 

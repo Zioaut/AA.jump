@@ -5,7 +5,7 @@
 #include "Game.h"
 
 
-Game::Game() : window ("", sf::Vector2u (800, 600)), hero (sf::Vector2u (800, 600)) {
+Game::Game() : window ("", sf::Vector2u (800, 600)), hero () {
 }
 
 Game::~Game() {

@@ -5,14 +5,12 @@
 #include "Hero.h"
 
 
-Hero::Hero(sf::Vector2u WindSize) {
-    WindSize = WindowSize;
+Hero::Hero() {
     gravity = sf::Vector2f (0, 9.8);
-    velocity = sf::Vector2f (10, 20);
-    costime = 0.025;
+    velocity = sf::Vector2f (40,40);
+    costime=0.005f;
     Reset ();
     Setmaxjump ();
-
 }
 
 
@@ -22,7 +20,10 @@ void Hero::Reset() {
     is_catch = false;
     is_death = false;
     Create_Sethero ();
+    CreateBlock ();
+
 }
+
 
 void Hero::Create_Sethero() {
     doodle.setPosition (400, 500);
@@ -31,11 +32,13 @@ void Hero::Create_Sethero() {
 
 }
 
+
 void Hero::CreateBullet() {
     bullet.setRadius (7.5f);
     bullet.setPosition (doodle.getSize ().x / 2 - 10 + doodle.getPosition ().x, doodle.getPosition ().y);
     bullet.setFillColor (sf::Color::Red);
 }
+
 
 void Hero::Update() {
     Jump ();
@@ -43,31 +46,40 @@ void Hero::Update() {
     Collision ();
 }
 
+
 void Hero::Shoot() {
     if (sf::Keyboard::isKeyPressed (sf::Keyboard::Space)) {
         CreateBullet ();
     }
+
+
     //funzione se colpisce nemico;
 }
+
 
 void Hero::Jump() {
     if (GetmaxjumpD () == 0) {
         doodle.move (0, +0.5f * gravity.y * costime);
     }
+
     if (sf::Keyboard::isKeyPressed (sf::Keyboard::D)) {
-        sf::Keyboard::Right;
+        sf::Event::KeyPressed;
         doodle.move (velocity.x * costime, -velocity.y * costime + 0.5f * gravity.y * costime * costime);
         while (max_jumpD < 10000) {
             //doodle.move (velocity.x * costime, -velocity.y * costime + 0.5f * gravity.y * costime * costime);
             max_jumpD += 1;
         }
     }
+
+
     if (sf::Keyboard::isKeyPressed (sf::Keyboard::A)) {
         doodle.move (-velocity.x * costime, -velocity.y * costime + 0.5f * gravity.y * costime * costime);
         while (max_jumpL < 10000) {
             max_jumpL += 1;
         }
     }
+
+
 }
 
 void Hero::Collision() {
@@ -77,29 +89,31 @@ void Hero::Collision() {
     if (max_jumpL >= 10000) {
         doodle.move (-velocity.x * costime, +velocity.y * costime + 0.5f * gravity.y * costime * costime);
     }
+            for (int i = 0; i <4 ; ++i) {
+                if (doodle.getGlobalBounds ().intersects (land[i].getGlobalBounds ())) {
+                    doodle.setPosition (doodle.getPosition ().x, land[i].getPosition ().y-doodle.getSize ().y);
+                    Setmaxjump ();
+                    gravity.y = -gravity.y;
+                } else
+            if(doodle.getPosition ().y<=land[i].getPosition ().y-50){
+                    doodle.setPosition (doodle.getPosition ().x,land[i].getPosition ().y-50);
+                    gravity.y=-gravity.y;
+                }
 
-    // Collisioni con pareti laterali
 
-    if (doodle.getPosition ().y >= 560) {
-        doodle.setPosition (doodle.getPosition ().x, 560);
-        Setmaxjump ();
-        gravity.y = -gravity.y;
-    }else
-    if (doodle.getPosition ().y <= 0) {
-        doodle.setPosition (doodle.getPosition ().x, 0);
-        Setmaxjump ();
-        gravity.y = -gravity.y;
-    }
-
+            }
     if (doodle.getPosition ().x <= 0) {
         doodle.setPosition (780, doodle.getPosition ().y);
         Setmaxjump ();
-    } else
-    if (doodle.getPosition ().x >= 800) {
+    } else if (doodle.getPosition ().x >= 800) {
         doodle.setPosition (0, doodle.getPosition ().y);
         Setmaxjump ();
     }
-}
+ }
+
+
+
+
 
 bool Hero::GameOver() {
     if (is_death) {
@@ -113,13 +127,29 @@ bool Hero::GameOver() {
 void Hero::Reneder(sf::RenderWindow &window) {
     window.draw (doodle);
     window.draw (bullet);
+    for (int j = 0; j <3 ; ++j) {
+        land[j].setFillColor (sf::Color::Red);
+        window.draw (land[j]);
+    }
 }
 
 void Hero::MoveBall() {
     bullet.move (velocity.x * costime, -velocity.y * costime + gravity.y * costime * costime);
 }
 
+
 void Hero::Setmaxjump() {
     max_jumpD = 0;
     max_jumpL = 0;
+}
+
+void Hero::CreateBlock() {
+    land[0].setPosition (400,530);
+    land[1].setPosition (260,330);
+    land[2].setPosition (560,330);
+    for (int i = 0; i <3 ; ++i) {
+        land[i].setSize (sf::Vector2f(70,10));
+    }
+
+
 }
