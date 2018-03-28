@@ -5,7 +5,7 @@
 #include "Game.h"
 
 
-Game::Game() : window ("", sf::Vector2u (800, 600)), hero (sf::Vector2u (800, 600)) {
+Game::Game() : window ("", sf::Vector2u (400,600)), hero () {
 }
 
 Game::~Game() {
@@ -20,7 +20,6 @@ void Game::Update() {
 
 
 void Game::HandleInput() {
-    hero.MoveBall ();
     hero.Jump ();
 }
 

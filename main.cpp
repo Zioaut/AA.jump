@@ -4,7 +4,7 @@
 
 int main() {
     Game game;
-
+    Hero hero;
     while (!game.GetWindow ()->IsDone ()) {
         game.Render ();
         game.HandleInput ();

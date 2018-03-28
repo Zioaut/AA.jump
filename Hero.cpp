@@ -5,13 +5,12 @@
 #include "Hero.h"
 
 
-Hero::Hero(sf::Vector2u WindSize) {
-    WindSize = WindowSize;
-    gravity = sf::Vector2f (0, 9.8);
-    velocity = sf::Vector2f (10, 20);
-    costime = 0.025;
+Hero::Hero() {
+    gravity=0.00002f;
+    velocity = sf::Vector2f (0.1,0.1);
     Reset ();
-    Setmaxjump ();
+
+
 
 }
 
@@ -22,104 +21,109 @@ void Hero::Reset() {
     is_catch = false;
     is_death = false;
     Create_Sethero ();
+
+
 }
 
+
 void Hero::Create_Sethero() {
-    doodle.setPosition (400, 500);
-    doodle.setSize (sf::Vector2f (20, 30));
+
+    doodle.setPosition (100,400);
+    doodle.setSize (sf::Vector2f (30, 60));
     doodle.setFillColor (sf::Color (144, 238, 144));
 
 }
 
+
 void Hero::CreateBullet() {
-    bullet.setRadius (7.5f);
-    bullet.setPosition (doodle.getSize ().x / 2 - 10 + doodle.getPosition ().x, doodle.getPosition ().y);
-    bullet.setFillColor (sf::Color::Red);
+    int i=0;
+    while (i<3) {
+        bullet[i].setRadius (7.5f);
+        bullet[i].setPosition (doodle.getSize ().x / 2 - 10 + doodle.getPosition ().x, doodle.getPosition ().y);
+        bullet[i].setFillColor (sf::Color::Red);
+        i++;
+    }
 }
 
 void Hero::Update() {
-    Jump ();
     Shoot ();
     Collision ();
 }
 
+
 void Hero::Shoot() {
     if (sf::Keyboard::isKeyPressed (sf::Keyboard::Space)) {
         CreateBullet ();
-    }
+        MoveBall ();
+        }
     //funzione se colpisce nemico;
 }
 
+
 void Hero::Jump() {
-    if (GetmaxjumpD () == 0) {
-        doodle.move (0, +0.5f * gravity.y * costime);
-    }
-    if (sf::Keyboard::isKeyPressed (sf::Keyboard::D)) {
-        sf::Keyboard::Right;
-        doodle.move (velocity.x * costime, -velocity.y * costime + 0.5f * gravity.y * costime * costime);
-        while (max_jumpD < 10000) {
-            //doodle.move (velocity.x * costime, -velocity.y * costime + 0.5f * gravity.y * costime * costime);
-            max_jumpD += 1;
-        }
-    }
-    if (sf::Keyboard::isKeyPressed (sf::Keyboard::A)) {
-        doodle.move (-velocity.x * costime, -velocity.y * costime + 0.5f * gravity.y * costime * costime);
-        while (max_jumpL < 10000) {
-            max_jumpL += 1;
-        }
-    }
-}
+    if (sf::Keyboard::isKeyPressed (sf::Keyboard::D) && !sf::Keyboard::isKeyPressed (sf::Keyboard::A)) {
+        velocity.y-=gravity;
+        doodle.setPosition (doodle.getPosition ().x+velocity.x,doodle.getPosition ().y-velocity.y);
 
+    } else if (sf::Keyboard::isKeyPressed (sf::Keyboard::A) && !sf::Keyboard::isKeyPressed (sf::Keyboard::D)) {
+
+
+    }
+
+        velocity.y -= gravity;
+
+    doodle.setPosition (doodle.getPosition ().x,doodle.getPosition ().y-velocity.y);
+
+}
 void Hero::Collision() {
-    if (max_jumpD >= 10000) {
-        doodle.move (velocity.x * costime, +velocity.y * costime + 0.5f * gravity.y * costime * costime);
-    }
-    if (max_jumpL >= 10000) {
-        doodle.move (-velocity.x * costime, +velocity.y * costime + 0.5f * gravity.y * costime * costime);
-    }
 
-    // Collisioni con pareti laterali
 
-    if (doodle.getPosition ().y >= 560) {
-        doodle.setPosition (doodle.getPosition ().x, 560);
-        Setmaxjump ();
-        gravity.y = -gravity.y;
-    }else
-    if (doodle.getPosition ().y <= 0) {
-        doodle.setPosition (doodle.getPosition ().x, 0);
-        Setmaxjump ();
-        gravity.y = -gravity.y;
-    }
+ if(velocity.y==0){
+    doodle.setPosition (doodle.getPosition ().x,doodle.getPosition ().y+velocity.y);
+     doodle.setPosition (doodle.getPosition ().x,doodle.getPosition ().y+gravity);
 
-    if (doodle.getPosition ().x <= 0) {
-        doodle.setPosition (780, doodle.getPosition ().y);
-        Setmaxjump ();
-    } else
-    if (doodle.getPosition ().x >= 800) {
-        doodle.setPosition (0, doodle.getPosition ().y);
-        Setmaxjump ();
-    }
 }
+
+    if(doodle.getPosition ().y>=500){
+        doodle.setPosition (doodle.getPosition ().x,500);
+        Setvelocity ();
+
+    }
+    if (doodle.getPosition ().x <= 0) {
+        doodle.setPosition (400, doodle.getPosition ().y);
+    } else if (doodle.getPosition ().x >= 400) {
+        doodle.setPosition (0, doodle.getPosition ().y);
+    }
+ }
+
+
+
+
 
 bool Hero::GameOver() {
     if (is_death) {
         //devo richiamare reset di Map
     }
-    if (doodle.getPosition ().y >= WindowSize.y - 30) {
+    if (doodle.getPosition ().y +doodle.getSize ().y>=900) {
         //richiamo reset di Map
+
     }
 }
 
 void Hero::Reneder(sf::RenderWindow &window) {
     window.draw (doodle);
-    window.draw (bullet);
+    for (int i = 0; i < 3; ++i) {
+        window.draw (bullet[i]);
+    }
+
 }
 
 void Hero::MoveBall() {
-    bullet.move (velocity.x * costime, -velocity.y * costime + gravity.y * costime * costime);
+
+    }
+
+
+float Hero::Setvelocity() {
+    velocity.y  =0.1f;
 }
 
-void Hero::Setmaxjump() {
-    max_jumpD = 0;
-    max_jumpL = 0;
-}

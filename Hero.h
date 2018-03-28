@@ -9,7 +9,7 @@
 
 class Hero {
 public:
-    Hero(sf::Vector2u Windsize);
+    Hero();
 
     ~Hero();
 
@@ -33,23 +33,25 @@ public:
 
     void MoveBall();
 
-    float GetmaxjumpD() { return max_jumpD; };
+    bool GetDeath(){return is_death;}
 
-    float GetmaxjumpL() { return max_jumpL; }
-    void Setmaxjump();
+    float Setvelocity();
+
+
+
+
+
 
 private:
-    sf::Vector2u WindowSize;
-    sf::Vector2f gravity;
-    sf::Vector2f velocity;
-    bool is_death;
-    float costime;
-    bool is_catch;
-    sf::RectangleShape doodle;
-    sf::CircleShape bullet;
-    float max_jumpD;
-    float max_jumpL;
 
+    float gravity;
+    sf::Vector2f velocity;
+    bool is_catch;
+    bool is_death;
+    sf::RectangleShape doodle;
+    sf::CircleShape bullet[3];
+    float x;
+    float y;
 };
 
 
