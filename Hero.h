@@ -6,10 +6,15 @@
 #define AA_JUMP_HERO_H
 
 #include <SFML/Graphics.hpp>
+#include "Enemy.h"
+#include <vector>
+
 
 class Hero {
 public:
-    Hero();
+     Hero(float g, float s, sf::Vector2f v,Enemy* e= nullptr);
+
+
 
     ~Hero();
 
@@ -17,13 +22,11 @@ public:
 
     void Update();
 
-    void Shoot();
-
+    void Shoot(Enemy*e);
     void Collision();
 
-    bool GameOver();
+    bool GameOver(Enemy*e);
 
-    void CreateBullet();
 
     void Reneder(sf::RenderWindow &window);
 
@@ -31,27 +34,19 @@ public:
 
     void Reset();
 
-    void MoveBall();
-
-    bool GetDeath(){return is_death;}
-
     float Setvelocity();
 
 
 
-
-
-
-private:
-
+protected:
     float gravity;
     sf::Vector2f velocity;
-    bool is_catch;
-    bool is_death;
     sf::RectangleShape doodle;
-    sf::CircleShape bullet[3];
-    float x;
-    float y;
+    std::vector<sf::CircleShape>bullet;
+    sf::CircleShape b;
+    float shoot;
+    Enemy* enemy;
+
 };
 
 

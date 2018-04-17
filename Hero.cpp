@@ -5,24 +5,20 @@
 #include "Hero.h"
 
 
-Hero::Hero() {
-    gravity=0.00002f;
-    velocity = sf::Vector2f (0.1,0.1);
+Hero::Hero(float g, float s, sf::Vector2f v, Enemy *e)
+        :gravity(g),shoot(s),velocity(v),enemy(e) {
     Reset ();
 
+    bullet.resize (2);
+    }
 
+
+Hero::~Hero() {
 
 }
 
-
-Hero::~Hero() {}
-
 void Hero::Reset() {
-    is_catch = false;
-    is_death = false;
     Create_Sethero ();
-
-
 }
 
 
@@ -35,28 +31,33 @@ void Hero::Create_Sethero() {
 }
 
 
-void Hero::CreateBullet() {
-    int i=0;
-    while (i<3) {
-        bullet[i].setRadius (7.5f);
-        bullet[i].setPosition (doodle.getSize ().x / 2 - 10 + doodle.getPosition ().x, doodle.getPosition ().y);
-        bullet[i].setFillColor (sf::Color::Red);
-        i++;
-    }
-}
+
 
 void Hero::Update() {
-    Shoot ();
     Collision ();
+    GameOver (enemy);
 }
 
 
-void Hero::Shoot() {
-    if (sf::Keyboard::isKeyPressed (sf::Keyboard::Space)) {
-        CreateBullet ();
-        MoveBall ();
+void Hero::Shoot(Enemy*e) {
+
+    if(sf::Keyboard::isKeyPressed (sf::Keyboard::C)) {
+        b.setRadius (1);
+        b.setFillColor (sf::Color::Red);
+        b.setPosition (doodle.getPosition ().x + doodle.getSize ().x / 2, doodle.getPosition ().y);
+        bullet.push_back (b);
+    }
+    for (size_t j=0; j <bullet.size (); ++j) {
+        bullet[j].move (0,-shoot);
+    }
+
+    for (size_t i = 0; i <bullet.size () ; ++i) {
+        if (bullet[i].getGlobalBounds ().intersects (e->GetBound2 ())) {
+            enemy->Death_En2 ();
+        } else if (bullet[i].getGlobalBounds ().intersects (e->GetBound ())) {
+            enemy->Death_En1 ();
         }
-    //funzione se colpisce nemico;
+    }//funzione se colpisce nemico;
 }
 
 
@@ -66,21 +67,21 @@ void Hero::Jump() {
         doodle.setPosition (doodle.getPosition ().x+velocity.x,doodle.getPosition ().y-velocity.y);
 
     } else if (sf::Keyboard::isKeyPressed (sf::Keyboard::A) && !sf::Keyboard::isKeyPressed (sf::Keyboard::D)) {
-
+        velocity.y-=gravity;
+        doodle.setPosition (doodle.getPosition ().x-velocity.x,doodle.getPosition ().y-velocity.y);
 
     }
 
         velocity.y -= gravity;
 
-    doodle.setPosition (doodle.getPosition ().x,doodle.getPosition ().y-velocity.y);
+        doodle.setPosition (doodle.getPosition ().x,doodle.getPosition ().y-velocity.y);
 
 }
 void Hero::Collision() {
 
-
- if(velocity.y==0){
-    doodle.setPosition (doodle.getPosition ().x,doodle.getPosition ().y+velocity.y);
-     doodle.setPosition (doodle.getPosition ().x,doodle.getPosition ().y+gravity);
+    if(velocity.y==0){
+        doodle.setPosition (doodle.getPosition ().x,doodle.getPosition ().y);
+        doodle.setPosition (doodle.getPosition ().x,doodle.getPosition ().y+gravity);
 
 }
 
@@ -100,11 +101,14 @@ void Hero::Collision() {
 
 
 
-bool Hero::GameOver() {
-    if (is_death) {
-        //devo richiamare reset di Map
-    }
-    if (doodle.getPosition ().y +doodle.getSize ().y>=900) {
+bool Hero::GameOver(Enemy*e) {
+    if(doodle.getGlobalBounds ().intersects (e->GetBound2 ())
+    ||doodle.getGlobalBounds ().intersects (e->GetBound ())){
+
+        doodle.setFillColor (sf::Color::Transparent);
+}
+
+    if (doodle.getPosition ().y +doodle.getSize ().y>=600) {
         //richiamo reset di Map
 
     }
@@ -112,18 +116,15 @@ bool Hero::GameOver() {
 
 void Hero::Reneder(sf::RenderWindow &window) {
     window.draw (doodle);
-    for (int i = 0; i < 3; ++i) {
+    for (size_t i= 0; i <bullet.size () ; ++i) {
         window.draw (bullet[i]);
     }
-
 }
-
-void Hero::MoveBall() {
-
-    }
-
 
 float Hero::Setvelocity() {
     velocity.y  =0.1f;
 }
+
+
+
 

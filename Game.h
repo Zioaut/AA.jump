@@ -8,6 +8,7 @@
 
 #include "Window.h"
 #include "Hero.h"
+#include "Enemy.h"
 
 class Game {
 public:
@@ -26,6 +27,7 @@ public:
 private:
     Window window;
     Hero hero;
+    Enemy enemy;
 
 };
 

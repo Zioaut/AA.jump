@@ -6,7 +6,7 @@
 
 
 Window::Window() {
-    Setup ("Pong", sf::Vector2u (800, 600));
+    Setup ("Pong", sf::Vector2u (400, 600));
 }
 
 Window::~Window() {
@@ -25,6 +25,7 @@ void Window::Setup(const std::string &title, const sf::Vector2u &size) {
 }
 
 void Window::Update() {
+
     sf::Event event;
     while (window.pollEvent (event)) {
         if (event.type == sf::Event::Closed)
