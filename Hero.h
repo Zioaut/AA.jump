@@ -14,8 +14,6 @@ class Hero {
 public:
      Hero(float g, float s, sf::Vector2f v,Enemy* e= nullptr);
 
-
-
     ~Hero();
 
     void Jump();
@@ -33,8 +31,8 @@ public:
     void Create_Sethero();
 
     void Reset();
-
     float Setvelocity();
+    void Create_Bullet();
 
 
 
@@ -46,7 +44,6 @@ protected:
     sf::CircleShape b;
     float shoot;
     Enemy* enemy;
-
 };
 
 

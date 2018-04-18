@@ -9,8 +9,7 @@ Hero::Hero(float g, float s, sf::Vector2f v, Enemy *e)
         :gravity(g),shoot(s),velocity(v),enemy(e) {
     Reset ();
 
-    bullet.resize (2);
-    }
+ }
 
 
 Hero::~Hero() {
@@ -31,24 +30,27 @@ void Hero::Create_Sethero() {
 }
 
 
-
-
 void Hero::Update() {
     Collision ();
     GameOver (enemy);
+    Shoot (enemy);
 }
 
 
 void Hero::Shoot(Enemy*e) {
 
     if(sf::Keyboard::isKeyPressed (sf::Keyboard::C)) {
-        b.setRadius (1);
-        b.setFillColor (sf::Color::Red);
-        b.setPosition (doodle.getPosition ().x + doodle.getSize ().x / 2, doodle.getPosition ().y);
-        bullet.push_back (b);
+        Create_Bullet ();
+        bullet.emplace_back (sf::CircleShape(b));
     }
+
     for (size_t j=0; j <bullet.size (); ++j) {
-        bullet[j].move (0,-shoot);
+
+                bullet[j].move (0,-shoot);
+
+             if(bullet[j].getPosition ().y<=150){
+                bullet.erase (bullet.begin ()+j);
+        }
     }
 
     for (size_t i = 0; i <bullet.size () ; ++i) {
@@ -57,7 +59,9 @@ void Hero::Shoot(Enemy*e) {
         } else if (bullet[i].getGlobalBounds ().intersects (e->GetBound ())) {
             enemy->Death_En1 ();
         }
-    }//funzione se colpisce nemico;
+    }
+    bullet.resize (2);
+    //funzione se colpisce nemico;
 }
 
 
@@ -83,7 +87,7 @@ void Hero::Collision() {
         doodle.setPosition (doodle.getPosition ().x,doodle.getPosition ().y);
         doodle.setPosition (doodle.getPosition ().x,doodle.getPosition ().y+gravity);
 
-}
+    }
 
     if(doodle.getPosition ().y>=500){
         doodle.setPosition (doodle.getPosition ().x,500);
@@ -116,8 +120,8 @@ bool Hero::GameOver(Enemy*e) {
 
 void Hero::Reneder(sf::RenderWindow &window) {
     window.draw (doodle);
-    for (size_t i= 0; i <bullet.size () ; ++i) {
-        window.draw (bullet[i]);
+     for (const auto &i : bullet) {
+        window.draw (i);
     }
 }
 
@@ -126,5 +130,9 @@ float Hero::Setvelocity() {
 }
 
 
-
+void Hero::Create_Bullet() {
+    b.setRadius (5);
+    b.setFillColor (sf::Color::Red);
+    b.setPosition (doodle.getPosition ().x+doodle.getSize ().x/2,doodle.getPosition ().y);
+}
 
