@@ -5,8 +5,8 @@
 #include "Hero.h"
 
 
-Hero::Hero(float g, float s, sf::Vector2f v, Enemy *e)
-        :gravity(g),shoot(s),velocity(v),enemy(e) {
+Hero::Hero(float g, float s, sf::Vector2f v, Enemy *e,Block*b)
+        :gravity(g),shoot(s),velocity(v),enemy(e),block(b) {
     Reset ();
 
  }
@@ -24,14 +24,14 @@ void Hero::Reset() {
 void Hero::Create_Sethero() {
 
     doodle.setPosition (100,400);
-    doodle.setSize (sf::Vector2f (30, 60));
+    doodle.setSize (sf::Vector2f (30, 50));
     doodle.setFillColor (sf::Color (144, 238, 144));
 
 }
 
 
 void Hero::Update() {
-    Collision ();
+    Collision (block);
     GameOver (enemy);
     Shoot (enemy);
 }
@@ -81,12 +81,16 @@ void Hero::Jump() {
         doodle.setPosition (doodle.getPosition ().x,doodle.getPosition ().y-velocity.y);
 
 }
-void Hero::Collision() {
+void Hero::Collision(Block*b) {
 
     if(velocity.y==0){
         doodle.setPosition (doodle.getPosition ().x,doodle.getPosition ().y);
         doodle.setPosition (doodle.getPosition ().x,doodle.getPosition ().y+gravity);
 
+    }
+    if(doodle.getGlobalBounds ().intersects (b->GetBound ())){
+        doodle.setPosition (doodle.getPosition ().x,doodle.getPosition ().y);
+        Setvelocity ();
     }
 
     if(doodle.getPosition ().y>=500){
@@ -109,7 +113,7 @@ bool Hero::GameOver(Enemy*e) {
     if(doodle.getGlobalBounds ().intersects (e->GetBound2 ())
     ||doodle.getGlobalBounds ().intersects (e->GetBound ())){
 
-        doodle.setFillColor (sf::Color::Transparent);
+        doodle.setFillColor (sf::Color::Black);
 }
 
     if (doodle.getPosition ().y +doodle.getSize ().y>=600) {

@@ -60,3 +60,4 @@ sf::RenderWindow *Window::GetRenderWindow() {
 sf::Vector2u Window::GetWindowSize() {
     return windowSize;
 }
+

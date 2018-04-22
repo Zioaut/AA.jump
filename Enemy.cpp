@@ -11,14 +11,14 @@ Enemy::~Enemy() {}
 
 
 void Enemy::Move() {
-    enemy1.move (0,e_velocity.y);
-    enemy2.move (e_velocity.x,0);
+       enemy2.move (e_velocity.x,0);
 
-    if(enemy2.getPosition ().x>=370||enemy2.getPosition ().x<=30){
-      e_velocity.x=-e_velocity.x;
-    }else if(enemy1.getPosition ().y>=570||enemy1.getPosition ().y<=0){
-        e_velocity.y=-e_velocity.y;
+    if(enemy2.getPosition ().x<0){
+        e_velocity=-e_velocity;
+    }    else if(enemy2.getPosition ().x>400){
+        e_velocity=-e_velocity;
     }
+
 }
 
 
@@ -35,18 +35,36 @@ void Enemy::SetEnemy() {
  enemy2.setSize (sf::Vector2f(20,20));
  enemy1.setFillColor (sf::Color::Yellow);
  enemy2.setFillColor (sf::Color::Yellow);
+ itr2=enemy2_container.begin ();
+ enemy2_container.insert (itr2,enemy2);
+ itr=enemy1_container.begin ();
+ enemy1_container.insert (itr,enemy1);
 }
 
 void Enemy::Render(sf::RenderWindow &window) {
-    window.draw (enemy1);
-    window.draw (enemy2);
+  for(auto itr2=enemy2_container.begin ();itr2!=enemy2_container.end ();itr2++){
+      window.draw (enemy2);
+  }
+    for (auto itr=enemy1_container.begin ();itr!=enemy1_container.end ();itr++) {
+        window.draw (enemy1);
+    }
 }
 
 void Enemy::Death_En2() {
-    enemy2.setFillColor (sf::Color::Transparent);
+    for (auto itr2=enemy2_container.begin ();itr2<enemy2_container.end (); ++itr2) {
+        enemy2_container.erase (itr2);
+    }
 }
 
 void Enemy::Death_En1() {
-    enemy1.setFillColor (sf::Color::Transparent);
+    for (auto itr=enemy1_container.begin ();itr<enemy1_container.end ();++itr) {
+        enemy1_container.erase (itr);
+    }
 }
 
+sf::FloatRect Enemy::GetBound() {
+    return enemy1.getGlobalBounds ();
+}
+sf::FloatRect Enemy::GetBound2() {
+    return enemy2.getGlobalBounds ();
+}
