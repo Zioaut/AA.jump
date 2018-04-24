@@ -16,12 +16,12 @@ public:
     void Update();
     void SetBlock();
     void Render(sf::RenderWindow& window);
-    sf::FloatRect GetBound(){return block.getGlobalBounds (); };
+    sf::FloatRect GetBound(){return block.getGlobalBounds ();};
     sf::Vector2i Random();
 
 
 private:
-    sf::RectangleShape block;
+    sf::RectangleShape block;// Todo prova a mettere block come array e riprova
     std::vector<sf::RectangleShape>blocks;
     std::vector<sf::RectangleShape>::iterator itr;
     sf::Vector2i windowSize;

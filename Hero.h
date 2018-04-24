@@ -16,12 +16,11 @@ public:
      Hero(float g, float s, sf::Vector2f v,Enemy* e= nullptr,Block*b= nullptr);
 
     ~Hero();
-
     void Jump();
     void Update();
-    void Shoot(Enemy*e);
-    void Collision(Block*b);
-    bool GameOver(Enemy*e);
+    void Shoot(Enemy&e);
+    void Collision(Block&b);
+    bool GameOver(Enemy&e);
     void Reneder(sf::RenderWindow &window);
     void Create_Sethero();
     void Reset();
@@ -39,6 +38,7 @@ protected:
     float shoot;
     Enemy* enemy;
     Block*block ;
+
 };
 
 

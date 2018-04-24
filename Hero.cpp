@@ -24,20 +24,20 @@ void Hero::Reset() {
 void Hero::Create_Sethero() {
 
     doodle.setPosition (100,400);
-    doodle.setSize (sf::Vector2f (30, 50));
+    doodle.setSize (sf::Vector2f (20, 40));
     doodle.setFillColor (sf::Color (144, 238, 144));
 
 }
 
 
 void Hero::Update() {
-    Collision (block);
-    GameOver (enemy);
-    Shoot (enemy);
+    Collision (*block);
+    GameOver (*enemy);
+    Shoot (*enemy);
 }
 
 
-void Hero::Shoot(Enemy*e) {
+void Hero::Shoot(Enemy&e) {
 
     if(sf::Keyboard::isKeyPressed (sf::Keyboard::C)) {
         Create_Bullet ();
@@ -45,18 +45,17 @@ void Hero::Shoot(Enemy*e) {
     }
 
     for (size_t j=0; j <bullet.size (); ++j) {
+        bullet[j].move (0,-shoot);
 
-                bullet[j].move (0,-shoot);
-
-             if(bullet[j].getPosition ().y<=150){
+        if(bullet[j].getPosition ().y<=50){
                 bullet.erase (bullet.begin ()+j);
         }
     }
 
     for (size_t i = 0; i <bullet.size () ; ++i) {
-        if (bullet[i].getGlobalBounds ().intersects (e->GetBound2 ())) {
+        if (bullet[i].getGlobalBounds ().intersects (e.GetBound2 ())) {
             enemy->Death_En2 ();
-        } else if (bullet[i].getGlobalBounds ().intersects (e->GetBound ())) {
+        } else if (bullet[i].getGlobalBounds ().intersects (e.GetBound ())) {
             enemy->Death_En1 ();
         }
     }
@@ -81,14 +80,14 @@ void Hero::Jump() {
         doodle.setPosition (doodle.getPosition ().x,doodle.getPosition ().y-velocity.y);
 
 }
-void Hero::Collision(Block*b) {
+void Hero::Collision(Block&b) {
 
     if(velocity.y==0){
         doodle.setPosition (doodle.getPosition ().x,doodle.getPosition ().y);
         doodle.setPosition (doodle.getPosition ().x,doodle.getPosition ().y+gravity);
 
     }
-    if(doodle.getGlobalBounds ().intersects (b->GetBound ())){
+    if(doodle.getGlobalBounds ().intersects (b.GetBound ())){
         doodle.setPosition (doodle.getPosition ().x,doodle.getPosition ().y);
         Setvelocity ();
     }
@@ -109,10 +108,9 @@ void Hero::Collision(Block*b) {
 
 
 
-bool Hero::GameOver(Enemy*e) {
-    if(doodle.getGlobalBounds ().intersects (e->GetBound2 ())
-    ||doodle.getGlobalBounds ().intersects (e->GetBound ())){
-
+bool Hero::GameOver(Enemy&e) {
+    if(doodle.getGlobalBounds ().intersects (e.GetBound2 ())
+    ||doodle.getGlobalBounds ().intersects (e.GetBound ())){
         doodle.setFillColor (sf::Color::Black);
 }
 
@@ -139,4 +137,3 @@ void Hero::Create_Bullet() {
     b.setFillColor (sf::Color::Red);
     b.setPosition (doodle.getPosition ().x+doodle.getSize ().x/2,doodle.getPosition ().y);
 }
-
