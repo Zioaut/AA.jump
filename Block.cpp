@@ -3,41 +3,53 @@
 //
 
 #include "Block.h"
-Block::Block(sf::Vector2i windSize, int bls):windowSize(windSize),blockSize(bls) {
+Block::Block(sf::Vector2i windSize, int bls,Hero*h):windowSize(windSize),blockSize(bls),hero(h) {
     SetBlock ();
 
 }
 
 Block::~Block() {
-//todo fai un delete di array
+
 }
 
 
 void Block::Update() {
-
+    Collision (*hero);
 }
 void Block::SetBlock() {
-    for (int i = 0; i <5 ; ++i) {
+    for (int i = 0; i <12 ; ++i) {
         Random ();
-        block.setSize (sf::Vector2f (50, 10));
+        block.setSize (sf::Vector2f (40, 10));
         block.setFillColor (sf::Color::Red);
         block.setPosition (item.x*blockSize , item.y*blockSize );
         blocks.insert (blocks.begin ()+i,block);
-        blockSize=rand ()&5+1;
+        blockSize=rand ()%10+1;
     }
 }
 
 void Block::Render(sf::RenderWindow &window) {
     for (auto i=0;i<blocks.size ();i++){
-        window.draw (blocks[i]);//todo prova a disegnare block[i]
+        window.draw (blocks[i]);
     }
 }
 
 sf::Vector2i Block::Random() {
-    srand ( static_cast<unsigned  int> (time (0)));
-    int maxX = (windowSize.x / blockSize) - 2;
-    int maxY = (windowSize.y / blockSize) - 2;
+   int  x=windowSize.x-50;
+    int y=windowSize.y-100;
+    int maxX = (x / blockSize) - 2;
+    int maxY = (y / blockSize) - 2;
     return item = sf::Vector2i(rand () % maxX + 1, rand () % maxY + 1);
 }
 
 
+
+void Block::Collision(Hero &hero) {
+    for (auto  i = 0; i <blocks.size () ; ++i) {
+        if(blocks[i].getGlobalBounds ().intersects (hero.GetBound ())){
+            hero.Setvelocity ();
+    }
+     if(blocks[i].getPosition ().y>=540||blocks[i].getPosition ().y<50){
+          { itr=blocks.begin ()+i;blocks.erase (itr); }
+    }
+ }
+}

@@ -9,24 +9,32 @@
 #include <SFML/Graphics.hpp>
 #include <vector>
 #include <ctime>
+#include "Hero.h"
+
+
+
+
 class Block {
 public:
-    Block(sf::Vector2i windSize,int bls);
+    Block(sf::Vector2i windSize,int bls,Hero* h= nullptr);
     ~Block();
     void Update();
     void SetBlock();
     void Render(sf::RenderWindow& window);
-    sf::FloatRect GetBound(){return block.getGlobalBounds ();};
     sf::Vector2i Random();
+    void Collision(Hero & hero);
+
 
 
 private:
-    sf::RectangleShape block;// Todo prova a mettere block come array e riprova
+    sf::RectangleShape block;
     std::vector<sf::RectangleShape>blocks;
     std::vector<sf::RectangleShape>::iterator itr;
     sf::Vector2i windowSize;
     int blockSize;
     sf::Vector2i item;
+    Hero *hero;
+
 };
 
 

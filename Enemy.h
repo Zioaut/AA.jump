@@ -9,7 +9,6 @@
 #include <vector>
 #include <ctime>
 
-
 class Enemy {
 public:
     explicit Enemy(sf::Vector2f ev,sf::Vector2i winds,int en,int en2);
@@ -39,6 +38,7 @@ private:
     int enemysize2;
     sf::Vector2i pos;
     sf::Vector2i pos2;
+
 };
 
 
