@@ -10,23 +10,25 @@
 #include <vector>
 #include <ctime>
 #include "Hero.h"
+#include "Enemy.h"
 
 
 
 
 class Block {
 public:
-    Block(sf::Vector2i windSize,int bls,Hero* h= nullptr);
+    Block(sf::Vector2i windSize,int bls,Hero* h= nullptr,Enemy*e= nullptr);
     ~Block();
     void Update();
     void SetBlock();
     void Render(sf::RenderWindow& window);
     sf::Vector2i Random();
-    void Collision(Hero & hero);
+    void Collision(Hero & hero,Enemy&enemy);
 
 
 
 private:
+    bool Random_Create( );
     sf::RectangleShape block;
     std::vector<sf::RectangleShape>blocks;
     std::vector<sf::RectangleShape>::iterator itr;
@@ -34,6 +36,8 @@ private:
     int blockSize;
     sf::Vector2i item;
     Hero *hero;
+    Enemy*enemy;
+    bool iscreate;
 
 };
 

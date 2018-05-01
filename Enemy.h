@@ -8,21 +8,23 @@
 #include <SFML/Graphics.hpp>
 #include <vector>
 #include <ctime>
+#include "Hero.h"
 
 class Enemy {
 public:
-    explicit Enemy(sf::Vector2f ev,sf::Vector2i winds,int en,int en2);
+    explicit Enemy(sf::Vector2f ev,sf::Vector2i winds,int en,int en2,Hero*h= nullptr);
     ~Enemy();
     void SetEnemy();
     void Update();
     void Move();
-    void Death_En2();
-    void Death_En1();
+    void Death_En2(Hero&h);
+    void Death_En1(Hero&h);
     void Render(sf::RenderWindow  &window);
-    sf::FloatRect GetBound2();
-    sf::FloatRect GetBound();
     sf::Vector2i SetRandom();
     sf::Vector2i SetRandom2();
+    void Collsion(Hero& h);
+    sf::FloatRect GetBounden1();
+    float GetPosy_en1();
 
 
 private:
@@ -38,7 +40,7 @@ private:
     int enemysize2;
     sf::Vector2i pos;
     sf::Vector2i pos2;
-
+    Hero*hero;
 };
 
 

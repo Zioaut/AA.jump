@@ -10,6 +10,7 @@
 #include "Hero.h"
 #include "Enemy.h"
 #include "Block.h"
+#include "Maps.h"
 
 class Game {
 public:
@@ -30,6 +31,10 @@ private:
     Hero hero;
     Enemy enemy;
     Block block;
+    Maps maps;
+
+
+
 };
 
 
