@@ -11,10 +11,10 @@
 
 class Maps {
 public:
-    Maps(sf::Vector2f WindS,int sc,Block*block= nullptr,Hero*hero= nullptr);
+    Maps(sf::Vector2f WindS, float sc,Block*block= nullptr,Hero*hero= nullptr);
 
     ~Maps();
-    void Increase_Score(Block& block);
+    void Increase_Score(float timescore);
     void Reset();
     void SetTablepoint();
     void Render(sf::RenderWindow & window);
@@ -27,12 +27,13 @@ private:
     sf::Vector2f WindowSize;
     void View(Hero& hero);
     void Addstring(std::string message);
-    int score;
+    float score;
     sf::View view;
     sf::Text text;
     sf::Font font;
     Block*block;
     Hero*hero;
+
 
 
 };
