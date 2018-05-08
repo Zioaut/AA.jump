@@ -11,34 +11,33 @@
 #include <ctime>
 #include "Hero.h"
 #include "Enemy.h"
-
-
+#include "Maps.h"
 
 
 class Block {
 public:
-    Block(sf::Vector2i windSize,int bls,Hero* h= nullptr,Enemy*e= nullptr);
+    Block(sf::Vector2i windSize,int bls,Hero* h= nullptr,Enemy*e= nullptr,Maps*m= nullptr);
     ~Block();
     void Update();
     void SetBlock();
     void Render(sf::RenderWindow& window);
-    sf::Vector2i Random();
     void Collision(Hero & hero,Enemy&enemy);
+
 
 
 
 private:
     bool Random_Create( );
+    sf::Vector2i Random();
     sf::RectangleShape block;
     std::vector<sf::RectangleShape>blocks;
-    std::vector<sf::RectangleShape>::iterator itr;
     sf::Vector2i windowSize;
     int blockSize;
     sf::Vector2i item;
     Hero *hero;
     Enemy*enemy;
     bool iscreate;
-
+    Maps*maps;
 };
 
 

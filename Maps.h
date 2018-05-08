@@ -7,11 +7,12 @@
 
 
 #include <SFML/Graphics.hpp>
-#include "Block.h"
+#include "Hero.h"
+
 
 class Maps {
 public:
-    Maps(sf::Vector2f WindS, float sc,Block*block= nullptr,Hero*hero= nullptr);
+    Maps(sf::Vector2f WindS, float sc,Hero*hero= nullptr);
 
     ~Maps();
     void Increase_Score(float timescore);
@@ -19,7 +20,7 @@ public:
     void SetTablepoint();
     void Render(sf::RenderWindow & window);
     void Update();
-
+    float GetViewSize(){return view.getCenter ().y;};
 
 
 
@@ -31,7 +32,6 @@ private:
     sf::View view;
     sf::Text text;
     sf::Font font;
-    Block*block;
     Hero*hero;
 
 

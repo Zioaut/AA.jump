@@ -5,7 +5,7 @@
 #include "Maps.h"
 
 
-Maps::Maps(sf::Vector2f WindS, float sc,Block*block,Hero*hero):WindowSize(WindS),score(sc),block(block),hero(hero) {
+Maps::Maps(sf::Vector2f WindS, float sc,Hero*hero):WindowSize(WindS),score(sc),hero(hero) {
     Reset ();
 
 
@@ -17,8 +17,8 @@ Maps::Maps(sf::Vector2f WindS, float sc,Block*block,Hero*hero):WindowSize(WindS)
 void Maps::Reset() {
     SetTablepoint ();
     score=0;
-    view=sf::View(sf::Vector2f(300,1000),sf::Vector2f(600,1300));
-    view.zoom (0.9f);
+    view=sf::View(sf::Vector2f(300,1000),sf::Vector2f(100,100));
+    view.zoom (6.5f);
 
 }
 
@@ -28,7 +28,8 @@ void Maps::SetTablepoint() {
     text.setFont (font);
     text.setString ("0");
     text.setColor (sf::Color::Black);
-    text.setPosition (WindowSize.x-30,50);
+    text.setCharacterSize (20);
+    text.setPosition (WindowSize.x-30,800);
 
     //setta parametri punteggio
 }
@@ -47,7 +48,7 @@ void Maps::Increase_Score(float timescore) {
         timescore+=0.1f;
     }
     if(timescore>30){
-    score=WindowSize.y-hero->GetPosy ();
+    score=WindowSize.y-hero->GetPosy ()-300;
     Addstring (std::to_string (static_cast<int>(score)));
     }
 
@@ -65,6 +66,6 @@ void Maps::Update() {
 void Maps::View(Hero &hero) {
     if (hero.GetPosy () < view.getCenter ().y) {
         view.setCenter (view.getCenter ().x, hero.GetPosy ());
-
+        text.setPosition (text.getPosition ().x,hero.GetPosy ()-100);
    }
 }

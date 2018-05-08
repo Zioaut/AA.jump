@@ -5,9 +5,9 @@
 #include "Game.h"
 
 
-Game::Game() : window ("", sf::Vector2u (400,1600)), hero (0.00002f,0.09f,sf::Vector2f(0.1,0.2)),
-               enemy (sf::Vector2f(0.08,0.05),sf::Vector2i(400,1200),7,6,&hero),
-               block(sf::Vector2i(400,1200),9,&hero,&enemy),maps(sf::Vector2f(400,1200),0,&block,&hero) {
+Game::Game() : window ("", sf::Vector2u (500,1600)), hero (0.00002f,0.09f,sf::Vector2f(0.1,0.1)),
+               enemy (sf::Vector2f(0.08,0.05),sf::Vector2i(500,1200),7,6,&hero),
+               block(sf::Vector2i(500,1200),9,&hero,&enemy,&maps),maps(sf::Vector2f(500,1200),0,&hero) {
 }
 
 Game::~Game() {

@@ -49,7 +49,7 @@ void Enemy::SetEnemy() {
     enemysize=rand ()%8+1;
     }
 
-    for (int j = 0; j < 4; ++j) {
+    for (int j = 0; j < 5; ++j) {
         SetRandom2 ();
         enemy2.setFillColor (sf::Color::Yellow);
         enemy2.setSize (sf::Vector2f (20, 20));
@@ -74,9 +74,9 @@ void Enemy::Death_En2(Hero&h) {
            if(enemy2_container[j].getGlobalBounds ().intersects (h.GetposBullet ())){
                     enemy2_container.erase (enemy2_container.begin ()+j);
            }
-            if (enemy2_container[j].getPosition ().y<=30||enemy2_container[j].getPosition ().y>=500){
+           /* if (enemy2_container[j].getPosition ().y<=30||enemy2_container[j].getPosition ().y>=500){
                 enemy2_container.erase (enemy2_container.begin ()+j);
-            }
+            }*/
                 }
 }
 
@@ -85,9 +85,9 @@ void Enemy::Death_En1(Hero&h) {
         if(enemy1_container[i].getGlobalBounds ().intersects (h.GetposBullet ())){
             enemy1_container.erase (enemy1_container.begin ()+i);
         }
-        if(enemy1_container[i].getPosition ().y>=500||enemy1_container[i].getPosition ().y<=50){
+        /*if(enemy1_container[i].getPosition ().y>=500||enemy1_container[i].getPosition ().y<=50){
             enemy1_container.erase (enemy1_container.begin ()+i);
-        }
+        }*/
     }
 }
 
@@ -104,7 +104,7 @@ sf::Vector2i Enemy::SetRandom() {
 
 sf::Vector2i Enemy::SetRandom2() {
     int x=windowSize.x-80;
-    int y=windowSize.y-100;
+    int y=windowSize.y-400;
     int maxX = (x / enemysize) - 2;
     int maxY = (y/ enemysize) - 2;
     return pos2 = sf::Vector2i(rand () % maxX + 1, rand () % maxY + 1);

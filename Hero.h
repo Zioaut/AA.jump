@@ -8,14 +8,17 @@
 #include <SFML/Graphics.hpp>
 
 #include <vector>
+#include "Subject.h"
+#include <list>
 
 
-
-class Hero {
+class Hero: public Subject {
 public:
      Hero(float g, float s, sf::Vector2f v);
-
     ~Hero();
+    virtual void Notify()override ;
+    virtual void Attach(Observer*o)override ;
+    virtual void Detach(Observer*o)override ;
     void Jump();
     void Update();
     void Shoot();
@@ -32,6 +35,8 @@ public:
 
 
 protected:
+    std::vector<Observer*>observer;
+    std::vector<Observer*>::iterator itro;
     float gravity;
     sf::Vector2f velocity;
     sf::RectangleShape doodle;
@@ -39,8 +44,6 @@ protected:
     std::vector<sf::CircleShape>bullet;
     std::vector<sf::CircleShape>::iterator itr;
     float shoot;
-
-
 
 };
 

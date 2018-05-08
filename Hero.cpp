@@ -45,13 +45,12 @@ void Hero::Shoot() {
     for (size_t j = 0; j < bullet.size (); ++j) {
         bullet[j].move (0, -shoot);
 
-        if (bullet[j].getPosition ().y <= 50) {
+        if (bullet[j].getPosition ().y < doodle.getPosition ().y-doodle.getSize ().y-35) {
             bullet.erase (bullet.begin () + j);
         }
     }
-
-
     bullet.resize (2);
+
 }
 
 
@@ -79,14 +78,13 @@ void Hero::Collision() {
         //se arriva alla sua massima altezza torna indietro per effetto della gravita
     }
 
-
     if(doodle.getPosition ().y>=1100){//questo if provvisorio
         doodle.setPosition (doodle.getPosition ().x,1100);
         Setvelocity ();
     }
     if (doodle.getPosition ().x <= 0) {
-        doodle.setPosition (400, doodle.getPosition ().y);
-    } else if (doodle.getPosition ().x >= 400) {
+        doodle.setPosition (500, doodle.getPosition ().y);
+    } else if (doodle.getPosition ().x >= 500) {
         doodle.setPosition (0, doodle.getPosition ().y);
     }//se l'eroe arriva alla grandezza massima o minima di x riappare dal lato opposto
  }
@@ -128,3 +126,19 @@ sf::FloatRect Hero::GetposBullet() {
     }
     return bulletshape;
 }
+
+
+void Hero::Notify() {
+    for (itro=observer.begin () ;itro!=observer.end ();++itr) {
+        (*itro)->update ();
+    }
+}
+
+void Hero::Attach(Observer *o) {
+    observer.push_back (o);
+}
+
+void Hero::Detach(Observer *o) {
+    observer.emplace_back (o);
+}
+

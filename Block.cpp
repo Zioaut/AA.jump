@@ -3,8 +3,8 @@
 //
 
 #include "Block.h"
-Block::Block(sf::Vector2i windSize, int bls,Hero*h,Enemy*e):
-        windowSize(windSize),blockSize(bls),hero(h),enemy(e) {
+Block::Block(sf::Vector2i windSize, int bls,Hero*h,Enemy*e,Maps*m):
+        windowSize(windSize),blockSize(bls),hero(h),enemy(e),maps(m) {
     SetBlock ();
 
 
@@ -22,24 +22,25 @@ void Block::SetBlock() {
     Random_Create ();
     if(iscreate){
 
-    for (int i = 0; i <20 ; ++i) {
+    for (int i = 0; i <40; ++i) {
         Random ();
         block.setSize (sf::Vector2f (40, 10));
         block.setFillColor (sf::Color::Red);
         block.setPosition (item.x*blockSize , item.y*blockSize );
         blocks.insert (blocks.begin ()+i,block);
-        blockSize=rand ()%7+1;
+
         //setta dei blocchi (provvisorio)
     }
     }else
-        for (int j = 0; j <8 ; ++j) {
+        for (int j = 0; j <10 ; ++j) {
          Random ();
             block.setSize (sf::Vector2f (40, 10));
             block.setFillColor (sf::Color::Red);
             block.setPosition (item.x*blockSize , item.y*blockSize );
             blocks.insert (blocks.begin ()+j,block);
-            blockSize=rand ()%7+1;
+
         }
+
 }
 
 void Block::Render(sf::RenderWindow &window) {
@@ -57,22 +58,21 @@ sf::Vector2i Block::Random() {
 
 
 void Block::Collision(Hero &hero,Enemy& enemy) {
-    for (auto  i = 0; i <blocks.size () ; ++i) {
-        if(blocks[i].getGlobalBounds ().intersects (hero.GetBound ())){
+    for (auto i=0;i<blocks.size ();++i) {
+        if (blocks[i].getGlobalBounds ().intersects (hero.GetBound ())) {
             hero.Setvelocity ();//risetta la velocità di hero
+        }
 
+        if(blocks[i].getPosition ().y>hero.GetPosy ()+maps->GetViewSize ()){
+            blocks.erase (blocks.begin ()+i);
+        }
+
+        if (blocks[i].getGlobalBounds ().intersects (enemy.GetBounden1 ())) {
+            blocks[i].setPosition (blocks[i].getPosition ().x, enemy.GetPosy_en1 ());
+        }
     }
-
-     if(blocks[i].getPosition ().y>=1240||blocks[i].getPosition ().y<50){
-          { itr=blocks.begin ()+i;blocks.erase (itr); }
-    }
-
-     if(blocks[i].getGlobalBounds ().intersects (enemy.GetBounden1 ())){
-         blocks[i].setPosition (blocks[i].getPosition ().x,enemy.GetPosy_en1 ());
-     }
- }
-
 }
+
 
 bool Block::Random_Create() {
     int random=rand ();
@@ -83,3 +83,4 @@ bool Block::Random_Create() {
     } else iscreate=false;
     return  iscreate;
 }
+
