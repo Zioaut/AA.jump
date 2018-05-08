@@ -6,7 +6,7 @@ set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_COMPILER /usr/bin/g++)
 set(CMAKE_C_COMPILER /usr/bin/gcc)
 
-set(SOURCE_FILES main.cpp Window.cpp Window.h Game.cpp Game.h Hero.cpp Hero.h Enemy.cpp Enemy.h Block.cpp Block.h)
+set(SOURCE_FILES main.cpp Window.cpp Window.h Game.cpp Game.h Hero.cpp Hero.h Enemy.cpp Enemy.h Block.cpp Block.h Maps.cpp Maps.h Observer.cpp Observer.h Subject.cpp Subject.h)
 add_executable(AA_jump ${SOURCE_FILES})
 
 
