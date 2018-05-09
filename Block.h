@@ -27,16 +27,15 @@ public:
 
 
 private:
-    bool Random_Create( );
+
     sf::Vector2i Random();
     sf::RectangleShape block;
     std::vector<sf::RectangleShape>blocks;
     sf::Vector2i windowSize;
     int blockSize;
-    sf::Vector2i item;
+    sf::Vector2i random;
     Hero *hero;
     Enemy*enemy;
-    bool iscreate;
     Maps*maps;
 };
 

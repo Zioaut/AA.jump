@@ -22,7 +22,7 @@ void Hero::Reset() {
 
 void Hero::Create_Sethero() {
 
-    doodle.setPosition (100,1000);
+    doodle.setPosition (100,5500);
     doodle.setSize (sf::Vector2f (20, 40));
     doodle.setFillColor (sf::Color (144, 238, 144));
 
@@ -78,10 +78,6 @@ void Hero::Collision() {
         //se arriva alla sua massima altezza torna indietro per effetto della gravita
     }
 
-    if(doodle.getPosition ().y>=1100){//questo if provvisorio
-        doodle.setPosition (doodle.getPosition ().x,1100);
-        Setvelocity ();
-    }
     if (doodle.getPosition ().x <= 0) {
         doodle.setPosition (500, doodle.getPosition ().y);
     } else if (doodle.getPosition ().x >= 500) {
@@ -130,7 +126,7 @@ sf::FloatRect Hero::GetposBullet() {
 
 void Hero::Notify() {
     for (itro=observer.begin () ;itro!=observer.end ();++itr) {
-        (*itro)->update ();
+        (*itro)->Achievments ();
     }
 }
 

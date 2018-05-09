@@ -19,28 +19,15 @@ void Block::Update() {
 
 }
 void Block::SetBlock() {
-    Random_Create ();
-    if(iscreate){
-
-    for (int i = 0; i <40; ++i) {
-        Random ();
-        block.setSize (sf::Vector2f (40, 10));
-        block.setFillColor (sf::Color::Red);
-        block.setPosition (item.x*blockSize , item.y*blockSize );
-        blocks.insert (blocks.begin ()+i,block);
-
-        //setta dei blocchi (provvisorio)
-    }
-    }else
-        for (int j = 0; j <10 ; ++j) {
-         Random ();
+    int minrange=5500;
+    for (int j = 0; j <50 ; ++j) {
+            Random ();
             block.setSize (sf::Vector2f (40, 10));
             block.setFillColor (sf::Color::Red);
-            block.setPosition (item.x*blockSize , item.y*blockSize );
-            blocks.insert (blocks.begin ()+j,block);
-
-        }
-
+            block.setPosition (random.x * blockSize, random.y + minrange);
+            blocks.insert (blocks.begin () + j, block);
+            minrange-=100;
+    }
 }
 
 void Block::Render(sf::RenderWindow &window) {
@@ -49,10 +36,9 @@ void Block::Render(sf::RenderWindow &window) {
     }
 }
 
-sf::Vector2i Block::Random() {
+sf::Vector2i Block::Random()  {
     int maxX = (windowSize.x/ blockSize) - 2;
-    int maxY = (windowSize.y / blockSize) - 2;
-    return item = sf::Vector2i(rand () % maxX + 1, rand () % maxY + 1);
+    return random=sf::Vector2i( rand ()%maxX+1,rand ()%100+1);
 }//funzione randomica per settare coordinate del blocco
 
 
@@ -63,7 +49,7 @@ void Block::Collision(Hero &hero,Enemy& enemy) {
             hero.Setvelocity ();//risetta la velocità di hero
         }
 
-        if(blocks[i].getPosition ().y>hero.GetPosy ()+maps->GetViewSize ()){
+        if(blocks[i].getPosition ().y>hero.GetPosy ()+300){
             blocks.erase (blocks.begin ()+i);
         }
 
@@ -74,13 +60,7 @@ void Block::Collision(Hero &hero,Enemy& enemy) {
 }
 
 
-bool Block::Random_Create() {
-    int random=rand ();
-    iscreate=false;
-    srand ((unsigned)time(NULL));
-    if((random%2)==1){
-        iscreate= true;
-    } else iscreate=false;
-    return  iscreate;
-}
+
+
+
 

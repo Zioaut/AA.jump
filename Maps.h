@@ -8,9 +8,10 @@
 
 #include <SFML/Graphics.hpp>
 #include "Hero.h"
+#include "Observer.h"
 
 
-class Maps {
+class Maps: public Observer {
 public:
     Maps(sf::Vector2f WindS, float sc,Hero*hero= nullptr);
 
@@ -20,6 +21,7 @@ public:
     void SetTablepoint();
     void Render(sf::RenderWindow & window);
     void Update();
+    virtual void Achievments() override ;
     float GetViewSize(){return view.getCenter ().y;};
 
 
