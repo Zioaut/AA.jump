@@ -11,6 +11,7 @@
 #include "Enemy.h"
 #include "Block.h"
 #include "Maps.h"
+#include "Achievments.h"
 
 class Game {
 public:
@@ -32,6 +33,7 @@ private:
     Enemy enemy;
     Block block;
     Maps maps;
+    Achievments achievments;
 
 
 

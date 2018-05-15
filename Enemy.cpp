@@ -38,7 +38,6 @@ void Enemy::Update() {
 }
 
 
-
 void Enemy::SetEnemy() {
 
     for (int i = 0; i <2 ; ++i) {
@@ -48,7 +47,7 @@ void Enemy::SetEnemy() {
     enemy1.setPosition (pos.x*enemysize,pos.y*enemysize);
     itr=enemy1_container.begin ();
     enemy1_container.insert (itr+i,enemy1);
-        enemysize=rand ()%8+1;
+    enemysize=rand ()%8+1;
     }
      int enemyrange=windowSize.y-3500;
     for (int j = 0; j < 5; ++j) {
@@ -76,6 +75,7 @@ void Enemy::Death_En2(Hero&h) {
     for (int j = 0; j <enemy2_container.size () ; ++j) {
            if(enemy2_container[j].getGlobalBounds ().intersects (h.GetposBullet ())){
                     enemy2_container.erase (enemy2_container.begin ()+j);
+                    h.SetKillYellow ();
            }
 
                 }
@@ -85,6 +85,7 @@ void Enemy::Death_En1(Hero&h) {
     for (int i = 0; i <enemy1_container.size () ; ++i) {
         if(enemy1_container[i].getGlobalBounds ().intersects (h.GetposBullet ())){
             enemy1_container.erase (enemy1_container.begin ()+i);
+            h.SetKillGreen ();
         }
 
     }

@@ -6,14 +6,15 @@
 #include "Maps.h"
 
 
-Maps::Maps(sf::Vector2f WindS, float sc,Hero*hero):WindowSize(WindS),score(sc),hero(hero) {
+Maps::Maps(sf::Vector2f WindS, float sc,Hero*hero):WindowSize(WindS),score(sc),hero(hero){
     Reset ();
-    hero->Attach (this);
+
 }
 
 
 void Maps::Reset() {
     SetTablepoint ();
+
     score=0;
     view=sf::View(sf::Vector2f(300,5600),sf::Vector2f(100,100));
     view.zoom (6.0f);
@@ -35,29 +36,23 @@ void Maps::SetTablepoint() {
 
 void Maps::Render(sf::RenderWindow &window) {
     window.draw (text);
+
     window.setView (view);
 
 }
 
 Maps::~Maps() {
-    hero->Detach (this);
+
 }
 
-void Maps::Increase_Score(float timescore) {
-    int i=0;
+void Maps::Increase_Score() {
 
-    while (timescore<30){
-        timescore+=0.1f;
-    }
-    if(timescore>30){
     score=WindowSize.y-hero->GetPosy ()-300;
     Addstring (std::to_string (static_cast<int>(score)));
-    }
-    if(i==0&&score==800){
-        hero->Notify ();
-        i++;
-    }
 
+    if(score>=3000){
+        hero->Setpoint (static_cast<int>(score));
+    }
 }
 void Maps::Addstring(std::string message) {
     text.setString (message);//mi aggiunge a text una stringa
@@ -65,7 +60,7 @@ void Maps::Addstring(std::string message) {
 
 
 void Maps::Update() {
-    Increase_Score (0);
+    Increase_Score ();
     View (*hero);
 
 }
@@ -76,6 +71,4 @@ void Maps::View(Hero &hero) {
    }
 }
 
-void Maps::Achievments() {
 
-}

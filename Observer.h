@@ -8,9 +8,11 @@
 
 class Observer {
 public:
-    Observer();
-    ~Observer();
-    virtual void update()=0;
+ virtual void Modify(int killYellow,int jump_block,int point,int killGreen)=0;
+
+protected:
+    virtual~Observer(){};
+
 
 };
 

@@ -5,7 +5,8 @@
 #include "Hero.h"
 
 
-Hero::Hero(float g, float s, sf::Vector2f v):gravity(g),shoot(s),velocity(v) {
+Hero::Hero(float g, float s, sf::Vector2f v,int j,int k,int kg,int p)
+        :gravity(g),shoot(s),velocity(v),jump_block(j),killYellow(k),killGreen(kg),point(p) {
     Reset ();
 
  }
@@ -45,7 +46,7 @@ void Hero::Shoot() {
     for (size_t j = 0; j < bullet.size (); ++j) {
         bullet[j].move (0, -shoot);
 
-        if (bullet[j].getPosition ().y < doodle.getPosition ().y-doodle.getSize ().y-35) {
+        if (bullet[j].getPosition ().y < doodle.getPosition ().y-doodle.getSize ().y-100) {
             bullet.erase (bullet.begin () + j);
         }
     }
@@ -124,9 +125,9 @@ sf::FloatRect Hero::GetposBullet() {
 }
 
 
-void Hero::Notify() {
-    for (itro=observer.begin () ;itro!=observer.end ();++itr) {
-        (*itro)->Achievments ();
+void Hero::Notify() const {
+    for (auto itro=observer.begin () ; itro != observer.end (); ++itro) {
+        (*itro)->Modify (killYellow,jump_block,point,killGreen);
     }
 }
 
@@ -135,6 +136,27 @@ void Hero::Attach(Observer *o) {
 }
 
 void Hero::Detach(Observer *o) {
-    observer.emplace_back (o);
+    observer.remove (o);
+}
+
+
+
+void Hero::SetJump() {
+    jump_block+=1;
+    Changed ();
+
+}
+void Hero::SetKillYellow() {
+    killYellow+=1;
+    Changed ();
+}
+void Hero::SetKillGreen() {
+    killGreen+=1;
+    Changed ();
+}
+
+void Hero::Setpoint(int pt) {
+    point=pt;
+    Changed ();
 }
 

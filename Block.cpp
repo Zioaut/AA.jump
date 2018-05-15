@@ -45,8 +45,11 @@ sf::Vector2i Block::Random()  {
 
 void Block::Collision(Hero &hero,Enemy& enemy) {
     for (auto i=0;i<blocks.size ();++i) {
-        if (blocks[i].getGlobalBounds ().intersects (hero.GetBound ())) {
-            hero.Setvelocity ();//risetta la velocità di hero
+        if (blocks[i].getGlobalBounds ().intersects (hero.GetBound ())&&hero.Getvelocity ()<=0) {
+            hero.Setvelocity ();
+            hero.SetJump ();
+
+                   //risetta la velocità di hero
         }
 
         if(blocks[i].getPosition ().y>hero.GetPosy ()+300){

@@ -8,21 +8,21 @@
 
 #include <SFML/Graphics.hpp>
 #include "Hero.h"
-#include "Observer.h"
 
 
-class Maps: public Observer {
+
+class Maps {
 public:
     Maps(sf::Vector2f WindS, float sc,Hero*hero= nullptr);
-
     ~Maps();
-    void Increase_Score(float timescore);
+    void Increase_Score();
     void Reset();
     void SetTablepoint();
+
     void Render(sf::RenderWindow & window);
     void Update();
-    virtual void Achievments() override ;
-    float GetViewSize(){return view.getCenter ().y;};
+
+
 
 
 
@@ -35,7 +35,6 @@ private:
     sf::Text text;
     sf::Font font;
     Hero*hero;
-
 
 
 };
