@@ -45,11 +45,11 @@ Maps::~Maps() {
 
 }
 
-void Maps::Increase_Score() {
-
+void Maps::Increase_Score(float max) {
     score=WindowSize.y-hero->GetPosy ()-300;
-    Addstring (std::to_string (static_cast<int>(score)));
-
+    if(hero->Getvelocity ()>=0){
+        Addstring (std::to_string (score));
+    }
     if(score>=3000){
         hero->Setpoint (static_cast<int>(score));
     }
@@ -60,7 +60,7 @@ void Maps::Addstring(std::string message) {
 
 
 void Maps::Update() {
-    Increase_Score ();
+    Increase_Score (0);
     View (*hero);
 
 }

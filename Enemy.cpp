@@ -3,32 +3,41 @@
 //
 
 #include "Enemy.h"
-Enemy::Enemy(sf::Vector2f ev,sf::Vector2i winds,int en,int en2,Hero*h)
-        :e_velocity(ev),windowSize(winds),enemysize(en),enemysize2(en2),hero(h) {
+
+
+
+Enemy::Enemy(sf::Vector2f ev,sf::Vector2i winds,int en,int en2,Hero*h,StrategyMove*s)
+        :e_velocity(ev),windowSize(winds),enemysize(en),enemysize2(en2),hero(h),strategy(s) {
     SetEnemy ();
+    bullet.emplace_back (b);
+
 
 }
 
 Enemy::~Enemy() {
     enemy1_container.clear ();
     enemy2_container.clear ();
+    bullet.clear ();
 }
 
 
 void Enemy::Move() {
-    for (auto &itr2 : enemy2_container) {
-        itr2.move (e_velocity.x,0);
-
-        if (itr2.getPosition ().x < 0) {
-           itr2.setPosition (itr2.getPosition ().x,itr2.getPosition ().y);
-           itr2.setPosition (itr2.getPosition ().x+e_velocity.x,itr2.getPosition ().y);
-        } else if (itr2.getPosition ().x > 400) {
-            itr2.setPosition (400,itr2.getPosition ().y);
-            itr2.setPosition (itr2.getPosition ().x-e_velocity.x,itr2.getPosition ().y);
-
+    for (auto &enemymove : enemy2_container) {
+        if(hero->GetPosy ()>enemymove.getPosition ().y<300&&hero->GetPosx()<enemymove.getPosition ().x
+           &&hero->GetPosy ()>enemymove.getPosition ().y){
+            strategy=new StrategyAtkLeft(0.05,0);
+            enemymove.move (strategy->Strategy_move ()) ;
+            delete strategy;
+        }   else if(hero->GetPosy ()-enemymove.getPosition ().y<300&&hero->GetPosx()>enemymove.getPosition ().x
+                 &&hero->GetPosy ()>enemymove.getPosition ().y){
+            strategy=new StrategyAtkRight(0.05,0);
+            enemymove.move (strategy->Strategy_move ());
+            delete  strategy;
         }
     }
 }
+
+
 
 void Enemy::Update() {
     //servirà successivamente per aggiornare creazione enemy
@@ -49,9 +58,8 @@ void Enemy::SetEnemy() {
     enemy1_container.insert (itr+i,enemy1);
     enemysize=rand ()%8+1;
     }
-     int enemyrange=windowSize.y-3500;
+     int enemyrange=windowSize.y-3000;
     for (int j = 0; j < 5; ++j) {
-
         SetRandom2 ();
         enemy2.setFillColor (sf::Color::Yellow);
         enemy2.setSize (sf::Vector2f (20, 20));
@@ -69,23 +77,30 @@ void Enemy::Render(sf::RenderWindow &window) {
     for (const auto &enemy2 : enemy2_container) {
         window.draw (enemy2);
     }
+    for (int i = 0; i <bullet.size () ; ++i) {
+        window.draw (bullet[i]);
+    }
 }
 
 void Enemy::Death_En2(Hero&h) {
-    for (int j = 0; j <enemy2_container.size () ; ++j) {
-           if(enemy2_container[j].getGlobalBounds ().intersects (h.GetposBullet ())){
-                    enemy2_container.erase (enemy2_container.begin ()+j);
-                    h.SetKillYellow ();
-           }
-
-                }
+    for (int j = 0; j < enemy2_container.size (); ++j) {
+        if (enemy2_container[j].getGlobalBounds ().intersects (h.GetposBullet ())) {
+            enemy2_container.erase (enemy2_container.begin () + j);
+            h.SetKillYellow ();
+        }
+        if(enemy2_container[j].getPosition ().y>h.GetPosy ()+300){
+            enemy2_container.erase (enemy2_container.begin ()+j);
+        }
+    }
 }
-
 void Enemy::Death_En1(Hero&h) {
     for (int i = 0; i <enemy1_container.size () ; ++i) {
         if(enemy1_container[i].getGlobalBounds ().intersects (h.GetposBullet ())){
             enemy1_container.erase (enemy1_container.begin ()+i);
             h.SetKillGreen ();
+        }
+        if(enemy1_container[i].getPosition ().y>h.GetPosy ()+300){
+            enemy1_container.erase (enemy1_container.begin ()+i);
         }
 
     }
@@ -138,3 +153,13 @@ float Enemy::GetPosy_en1() {
     }
     return posEn1;
 }
+
+void Enemy::CreateBullet() {
+        b.setRadius (5);
+        b.setFillColor (sf::Color::Red);
+
+}
+
+
+
+

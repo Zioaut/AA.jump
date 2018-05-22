@@ -15,7 +15,7 @@ class Maps {
 public:
     Maps(sf::Vector2f WindS, float sc,Hero*hero= nullptr);
     ~Maps();
-    void Increase_Score();
+    void Increase_Score(float max);
     void Reset();
     void SetTablepoint();
 

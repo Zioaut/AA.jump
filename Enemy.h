@@ -9,10 +9,15 @@
 #include <vector>
 #include <ctime>
 #include "Hero.h"
+#include "StrategyMove.h"
+#include "StrategyDefense.h"
+#include "StrategyAtkLeft.h"
+#include "StrategyAtkRight.h"
+
 
 class Enemy {
 public:
-    explicit Enemy(sf::Vector2f ev,sf::Vector2i winds,int en,int en2,Hero*h= nullptr);
+     Enemy(sf::Vector2f ev,sf::Vector2i winds,int en,int en2,Hero*h= nullptr,StrategyMove*s= nullptr);
     ~Enemy();
     void SetEnemy();
     void Update();
@@ -25,6 +30,9 @@ public:
     void Collsion(Hero& h);
     sf::FloatRect GetBounden1();
     float GetPosy_en1();
+    void CreateBullet();
+
+
 
 
 private:
@@ -35,12 +43,16 @@ private:
     std::vector<sf::RectangleShape>enemy2_container;
     std::vector<sf::RectangleShape>::iterator itr;
     std::vector<sf::RectangleShape>::iterator itr2;
+    std::vector<sf::CircleShape>::iterator itr3;
+    sf::CircleShape b;
+    std::vector<sf::CircleShape>bullet;
     sf::Vector2f e_velocity;
     int enemysize;
     int enemysize2;
     sf::Vector2i pos;
     sf::Vector2i pos2;
     Hero*hero;
+    StrategyMove*strategy;
 };
 
 

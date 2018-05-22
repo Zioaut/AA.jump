@@ -32,6 +32,7 @@ public:
     void Create_Bullet();
     sf::FloatRect GetBound(){return doodle.getGlobalBounds ();}
     float GetPosy(){return doodle.getPosition ().y;}
+    float GetPosx(){return doodle.getPosition ().x;}//questo è uno strumento che ci tornerà molto presto utile
     sf::FloatRect GetposBullet();
     void Changed(){Notify ();};
     void SetKillYellow();
@@ -49,7 +50,6 @@ protected:
     sf::RectangleShape doodle;
     sf::CircleShape b;
     std::vector<sf::CircleShape>bullet;
-    std::vector<sf::CircleShape>::iterator itr;
     float shoot;
     int killYellow;
     int jump_block;

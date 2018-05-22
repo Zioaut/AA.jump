@@ -12,13 +12,14 @@
 #include "Block.h"
 #include "Maps.h"
 #include "Achievments.h"
+#include "StrategyMove.h"
+#include "StrategyAtkLeft.h"
+#include "StrategyDefense.h"
 
 class Game {
 public:
     Game();
-
     ~Game();
-
     void Update();
 
     void HandleInput();
@@ -34,6 +35,8 @@ private:
     Block block;
     Maps maps;
     Achievments achievments;
+    StrategyMove* move;
+
 
 
 

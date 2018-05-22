@@ -22,15 +22,18 @@ public:
     void SetBlock();
     void Render(sf::RenderWindow& window);
     void Collision(Hero & hero,Enemy&enemy);
+    void Move();
 
 
 
 
 private:
-
+    sf::Vector2f velocity;
     sf::Vector2i Random();
+    sf::RectangleShape block2;
     sf::RectangleShape block;
     std::vector<sf::RectangleShape>blocks;
+    std::vector<sf::RectangleShape>blocks2;
     sf::Vector2i windowSize;
     int blockSize;
     sf::Vector2i random;
