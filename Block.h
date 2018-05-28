@@ -12,16 +12,18 @@
 #include "Hero.h"
 #include "Enemy.h"
 #include "Maps.h"
+#include <memory>
+
 
 
 class Block {
 public:
-    Block(sf::Vector2i windSize,int bls,Hero* h= nullptr,Enemy*e= nullptr,Maps*m= nullptr);
+    Block(sf::Vector2i windSize,int bls,Enemy*e= nullptr,Maps*m= nullptr,Hero*h= nullptr);
     ~Block();
     void Update();
     void SetBlock();
     void Render(sf::RenderWindow& window);
-    void Collision(Hero & hero,Enemy&enemy);
+    void Collision();
     void Move();
 
 
@@ -37,9 +39,17 @@ private:
     sf::Vector2i windowSize;
     int blockSize;
     sf::Vector2i random;
-    Hero *hero;
+    Hero*hero;
     Enemy*enemy;
     Maps*maps;
+    int minrange=15500;
+    const int bscale1=100;
+    const int bscale2=200;
+    const int bscale3=250;
+    const int bdistance=300;
+    const int mindistance=0;
+    const int nrand=10+1;
+    const int choose=6;
 };
 
 

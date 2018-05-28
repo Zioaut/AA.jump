@@ -16,9 +16,9 @@ class Hero: public Subject {
 public:
      Hero(float g, float s, sf::Vector2f v,int j,int k,int kg,int p);
     ~Hero();
-    virtual void Notify()const ;
-    virtual void Attach(Observer*o);
-    virtual void Detach(Observer*o)override ;
+     void Notify()const override ;
+     void Attach(Observer*o)override ;
+    void Detach(Observer*o)override ;
     void Jump();
     void Update();
     void Shoot();
@@ -32,13 +32,14 @@ public:
     void Create_Bullet();
     sf::FloatRect GetBound(){return doodle.getGlobalBounds ();}
     float GetPosy(){return doodle.getPosition ().y;}
-    float GetPosx(){return doodle.getPosition ().x;}//questo è uno strumento che ci tornerà molto presto utile
+    float GetPosx(){return doodle.getPosition ().x;}
     sf::FloatRect GetposBullet();
     void Changed(){Notify ();};
     void SetKillYellow();
     void SetJump();
     void SetKillGreen();
     void Setpoint(int pt);
+    void Setnumbullet( );
 
 
 
@@ -55,6 +56,7 @@ protected:
     int jump_block;
     int point;
     int killGreen;
+    int numbullet;
 };
 
 

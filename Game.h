@@ -13,8 +13,10 @@
 #include "Maps.h"
 #include "Achievments.h"
 #include "StrategyMove.h"
-#include "StrategyAtkLeft.h"
-#include "StrategyDefense.h"
+#include "StrategyDefenseLeft.h"
+#include "StrategyDefenseRight.h"
+#include <memory>
+
 
 class Game {
 public:
@@ -36,7 +38,6 @@ private:
     Maps maps;
     Achievments achievments;
     StrategyMove* move;
-
 
 
 

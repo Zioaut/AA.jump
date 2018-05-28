@@ -23,7 +23,7 @@ void Hero::Reset() {
 
 void Hero::Create_Sethero() {
 
-    doodle.setPosition (100,5500);
+    doodle.setPosition (100,15000);
     doodle.setSize (sf::Vector2f (20, 40));
     doodle.setFillColor (sf::Color (144, 238, 144));
 
@@ -45,6 +45,7 @@ void Hero::Shoot() {
 
     for (size_t j = 0; j < bullet.size (); ++j) {
         bullet[j].move (0, -shoot);
+        Setnumbullet ();
 
         if (bullet[j].getPosition ().y < doodle.getPosition ().y-doodle.getSize ().y-100) {
             bullet.erase (bullet.begin () + j);
@@ -92,9 +93,6 @@ void Hero::Collision() {
 
 bool Hero::GameOver() {
     doodle.setFillColor (sf::Color::Black);
-
-    if (doodle.getPosition ().y +doodle.getSize ().y>=600) {
-    }
 }
 
 void Hero::Reneder(sf::RenderWindow &window) {
@@ -127,7 +125,7 @@ sf::FloatRect Hero::GetposBullet() {
 
 void Hero::Notify() const {
     for (auto itro=observer.begin () ; itro != observer.end (); ++itro) {
-        (*itro)->Modify (killYellow,jump_block,point,killGreen);
+        (*itro)->Modify (killYellow,jump_block,point,killGreen,numbullet);
     }
 }
 
@@ -160,3 +158,7 @@ void Hero::Setpoint(int pt) {
     Changed ();
 }
 
+void Hero::Setnumbullet() {
+    numbullet+=1;
+    Changed ();
+}

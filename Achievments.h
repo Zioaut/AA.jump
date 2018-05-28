@@ -13,19 +13,19 @@
 #include "DisplayElement.h"
 #include <SFML/Graphics.hpp>
 #include <iostream>
-#include "Window.h"
 #include <fstream>
 
 
 
-class Achievments: public Observer, private DisplayElement {
+class Achievments: public Observer, public DisplayElement {
 public:
     explicit Achievments(Subject*hero);
     ~Achievments()override ;
-    void Modify(int ky,int j,int p,int kg) override;
-    void Display()  ;
-    void SetAchievments();
+    void Modify(int ky,int j,int p,int kg,int nb) override;
+    void Display();
     void LoadAch();
+
+
 
 
 
@@ -36,9 +36,8 @@ protected:
     int jump_block;
     int killGreen;
     int point;
+    int numbullet;
     int a,b,c,d;
-    sf::Text text2;
-    void Addstring2(std::string m);
 
 };
 

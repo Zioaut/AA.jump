@@ -3,11 +3,13 @@
 //
 
 #include "Block.h"
-Block::Block(sf::Vector2i windSize, int bls,Hero*h,Enemy*e,Maps*m):
-        windowSize(windSize),blockSize(bls),hero(h),enemy(e),maps(m) {
-    SetBlock ();
-    velocity=sf::Vector2f(0.06,0);
 
+
+
+Block::Block(sf::Vector2i windSize, int bls,Enemy*e,Maps*m,Hero*h):
+        windowSize(windSize),blockSize(bls),enemy(e),maps(m),hero(h){
+    SetBlock ();
+    velocity=sf::Vector2f(0.1,0);
 
 }
 
@@ -17,36 +19,60 @@ Block::~Block() {
 }
 
 void Block::Update() {
-    Collision (*hero,*enemy);
+    Collision ();
 
 }
 void Block::SetBlock() {
-    int minrange=5500;
-    int minrange2=2350;
+    int choosina;
     block.setSize (sf::Vector2f (40, 10));
     block.setFillColor (sf::Color::Red);
     block2.setFillColor (sf::Color::Blue);
     block2.setSize (sf::Vector2f(50,10));
-    for (int j = 0; j <30 ; ++j) {
+    for (int j = 0; j <50 ; ++j) {
+            choosina=rand ()%nrand;
+        if(choosina>=choose){
+            Random ();
+            block2.setPosition (random.x*blockSize,random.y+minrange);
+            blocks2.emplace_back (block2);
+            minrange-=bscale1;
+        }else{
             Random ();
             block.setPosition (random.x * blockSize, random.y + minrange);
-            blocks.insert (blocks.begin () + j, block);
-            minrange-=100;
-    }if(minrange<=2500){
-        for (int i = 0; i <5 ; ++i) {
-        Random ();
-        block.setPosition (random.x*blockSize,random.y+minrange);
-        blocks.insert (blocks.begin ()+i,block);
-        minrange-=300;
+            blocks.emplace_back ( block);
+            minrange-=bscale1;
         }
-    }
-    for (int k = 0; k <5 ; ++k) {
-        Random ();
-        block2.setPosition (random.x*blockSize,random.y+minrange2);
-        blocks2.insert (blocks2.begin ()+k,block2);
-        minrange2-=300;
-    }
+      if(minrange<=10500){
+          for (int i = 0; i <30 ; ++i) {
+                choosina=rand ()%nrand;
+              if(choosina>=choose){
+                  Random ();
+                  block.setPosition (random.x * blockSize, random.y + minrange);
+                  blocks.emplace_back ( block);
+                  minrange-=bscale2;
+              }else{
+                  Random ();
+                  block2.setPosition (random.x*blockSize,random.y+minrange);
+                  blocks2.emplace_back (block2);
+                  minrange-=bscale2;
+              }
+          }
+          for (int k = 0; k <20 ; ++k) {
+                choosina=rand ()%nrand;
+              if(choosina>=choose){
+                  Random ();
+                  block.setPosition (random.x * blockSize, random.y + minrange);
+                  blocks.emplace_back ( block);
+                  minrange-=bscale3;
+              }else {
+                  Random ();
+                  block2.setPosition (random.x*blockSize,random.y+minrange);
+                  blocks2.emplace_back (block2);
+                  minrange-=bscale3;
+              }
+          }
+      }
 
+    }
 
 }
 
@@ -66,36 +92,46 @@ sf::Vector2i Block::Random()  {
 
 
 
-void Block::Collision(Hero &hero,Enemy& enemy) {
-    for (auto i=0;i<blocks.size ();++i) {
-        if (blocks[i].getGlobalBounds ().intersects (hero.GetBound ())&&hero.Getvelocity ()<=0) {
-            hero.Setvelocity ();
-            hero.SetJump ();
+void Block::Collision() {
+        for (auto i = 0; i < blocks.size (); ++i) {
 
-            //risetta la velocità di hero
-        }
-        if(blocks[i].getPosition ().y>hero.GetPosy ()+300){
-            blocks.erase (blocks.begin ()+i);
-        }
-        if (blocks[i].getGlobalBounds ().intersects (enemy.GetBounden1 ())) {
-            blocks[i].setPosition (blocks[i].getPosition ().x, enemy.GetPosy_en1 ());
-        }
-    }
-    for (auto j = 0; j <blocks2.size () ; ++j) {
-        if(blocks2[j].getGlobalBounds ().intersects (hero.GetBound ())&&hero.Getvelocity ()<=0){
-            hero.Setvelocity ();
-            hero.SetJump ();
-        }
-        if(blocks2[j].getPosition ().y>hero.GetPosy ()+300){
-            blocks2.erase (blocks2.begin ()+j);
+            if (blocks[i].getGlobalBounds ().intersects (hero->GetBound ()) && hero->Getvelocity () <= mindistance) {
+                hero->Setvelocity ();
+                hero->SetJump ();
+                //risetta la velocità di hero
+            }
+            if (blocks[i].getPosition ().y > hero->GetPosy () + bdistance) {
+                blocks.erase (blocks.begin () + i);
+            }
+            if (blocks[i].getGlobalBounds ().intersects (enemy->GetBounden1 ())) {
+                blocks[i].setPosition (blocks[i].getPosition ().x, enemy->GetPosy_en1 ());
+            }
         }
 
+        for (auto j = 0; j < blocks2.size (); ++j) {
+            if (blocks2[j].getGlobalBounds ().intersects (hero->GetBound ()) &&
+                hero->Getvelocity () <= mindistance) {
+                hero->Setvelocity ();
+                hero->SetJump ();
+            }
+            if (blocks2[j].getPosition ().y > hero->GetPosy () + bdistance) {
+                blocks2.erase (blocks2.begin () + j);
+            }
+
+        }
+
     }
-}
+
+
 
 void Block::Move() {
     for (auto i = 0; i <blocks2.size () ; ++i) {
-        blocks2[i].move (velocity.x,velocity.y);
+        if(maps->GetScore ()>10000) {
+            blocks2[i].move (velocity.x+0.05f, velocity.y);
+        }else {
+            blocks2[i].move (velocity.x,velocity.y);
+        }
+
         if(blocks2[i].getPosition ().x<0){
             blocks2[i].setPosition (500,blocks2[i].getPosition ().y);
         }else if(blocks2[i].getPosition ().x>500){
