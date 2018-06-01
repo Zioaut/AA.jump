@@ -7,11 +7,12 @@
 
 #include <SFML/Graphics/RenderWindow.hpp>
 
-class DisplayElement{
- public:
+class DisplayElement {
+public:
     virtual void Display()=0;
- protected:
-    virtual  ~DisplayElement(){}
+
+protected:
+    virtual  ~DisplayElement() {}
 };
 
 

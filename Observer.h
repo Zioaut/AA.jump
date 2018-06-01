@@ -8,10 +8,10 @@
 
 class Observer {
 public:
- virtual void Modify(int killYellow,int jump_block,int point,int killGreen,int numbullet)=0;
+    virtual void Modify(int killYellow, int jump_block, int point, int killGreen, int numbullet)=0;
 
 protected:
-    virtual~Observer(){};
+    virtual~Observer() {};
 
 
 };

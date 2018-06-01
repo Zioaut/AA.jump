@@ -9,25 +9,26 @@
 
 #include "StrategyMove.h"
 
-class StrategyDefenseRight: public  StrategyMove{
+class StrategyDefenseRight : public StrategyMove {
 public:
-    explicit StrategyDefenseRight(float maxX,float maxY,bool bersek,int anger):
-            StrategyMove (maxX,maxY),bersek(bersek),anger(anger){};
+    explicit StrategyDefenseRight(float maxX, float maxY, bool berserk, int anger) :
+            StrategyMove (maxX, maxY), berserk (berserk), anger (anger) {};
 
     sf::Vector2f Strategy_move() override {
         sf::Vector2f item;
-        item.x=-maxX;
-        item.y=maxY;
-        if(bersek){
-            anger=rand ()%3+1;
-            item.x=-maxX*anger;
+        item.x = -maxX;
+        item.y = maxY;
+        if (berserk) {
+            anger = rand () % 3 + 1;
+            item.x = -maxX * anger;
         }
         return item;
 
     }
+
 private:
     int anger;
-    bool bersek;
+    bool berserk;
 };
 
 

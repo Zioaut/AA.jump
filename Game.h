@@ -21,7 +21,9 @@
 class Game {
 public:
     Game();
+
     ~Game();
+
     void Update();
 
     void HandleInput();
@@ -37,8 +39,7 @@ private:
     Block block;
     Maps maps;
     Achievments achievments;
-    StrategyMove* move;
-
+    StrategyMove *move;
 
 
 };

@@ -28,7 +28,7 @@ public:
     sf::Vector2u GetWindowSize();
 
     void Draw(sf::Drawable &drawable);
-    bool SetActive{window.setActive (false)};
+
 
 private:
     void Setup(const std::string &title, const sf::Vector2u &size);

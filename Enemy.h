@@ -6,7 +6,6 @@
 #define AA_JUMP_ENEMY_H
 
 
-
 #include <SFML/Graphics.hpp>
 #include <vector>
 #include <memory>
@@ -17,28 +16,51 @@
 #include "StrategyAttack.h"
 
 
-
 class Enemy {
 public:
-     Enemy(sf::Vector2f ev,sf::Vector2i winds,int en,int en2,StrategyMove*s= nullptr,Hero*h= nullptr);
+    Enemy(sf::Vector2f ev, sf::Vector2i winds, int en, int en2, StrategyMove *s, Hero &h);
+
     ~Enemy();
-    void SetEnemy();
+
+    int SetEnemy();
+
     void Update();
+
     void Move();
+
     void Death_En2();
+
     void Death_En1();
+
     void Death_En3();
+
     void Death_En4();
-    void Render(sf::RenderWindow  &window);
+
+    void Render(sf::RenderWindow &window);
+
     sf::Vector2i SetRandom();
+
     sf::Vector2i SetRandom2();
+
     void Collsion();
+
     sf::FloatRect GetBounden1();
+
     float GetPosy_en1();
+
     void Move3();
+
     void Explosion(float count);
 
+    int Getposy(){return pos.y;}
 
+    int Getposy2(){return pos2.y;}
+    
+    int GetSizeEn1(){ return static_cast<int>(enemy1_container.size ());}
+    
+    int GetSizeEn2(){return static_cast<int>(enemy2_container.size ());}  
+    
+    int GetSizeEn3(){ return static_cast<int>(enemy3_container.size ());}
 
 private:
     sf::Vector2i windowSize;
@@ -46,10 +68,10 @@ private:
     sf::RectangleShape enemy2;
     sf::RectangleShape enemy3;
     sf::RectangleShape enemy4;
-    std::vector<sf::RectangleShape>enemy1_container;
-    std::vector<sf::RectangleShape>enemy2_container;
-    std::vector<sf::RectangleShape>enemy3_container;
-    std::vector<sf::RectangleShape>enemy4_container;
+    std::vector<sf::RectangleShape> enemy1_container;
+    std::vector<sf::RectangleShape> enemy2_container;
+    std::vector<sf::RectangleShape> enemy3_container;
+    std::vector<sf::RectangleShape> enemy4_container;
     std::vector<sf::RectangleShape>::iterator itr;
     std::vector<sf::RectangleShape>::iterator itr2;
     sf::Vector2f e_velocity;
@@ -57,14 +79,18 @@ private:
     int enemysize2;
     sf::Vector2i pos;
     sf::Vector2i pos2;
-    Hero*hero;
-    StrategyMove*strategy;
-    int enemyrange=10000;
-    int enemyrange2=13000;
-    int enemyrange3=12000;
-    const int scale=5000;
-    const int distance=300;
-    int randomina=rand ()%100+1;
+    Hero &hero;
+    StrategyMove *strategy;
+    int enemyrange = 10000;
+    int enemyrange2 = 13000;
+    int enemyrange3 = 12000;
+    const int scale = 5000;
+    const int distance = 300;
+    int randomy = rand () % 100 + 1;
+    int count = 0;
+    const float increment=0.005f;
+    const int choose_range=60;
+    const int explosion=50;
 };
 
 

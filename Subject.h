@@ -11,13 +11,15 @@
 
 class Subject {
 public:
-    virtual void Attach(Observer*o)=0;
-    virtual void Detach(Observer*o)=0;
+    virtual void Attach(Observer *o)=0;
+
+    virtual void Detach(Observer *o)=0;
+
     virtual void Notify() const =0;
 
 
 protected:
-    virtual ~Subject(){};
+    virtual ~Subject() {};
 };
 
 
