@@ -27,26 +27,27 @@ public:
 
     void Update();
 
-    float GetScore() { return score; }
+    float GetScore() { return static_cast<int > (score); }
 
-    float Gettextpositiony(){ return text.getPosition ().y;}
+    float Gettextpositiony() { return text.getPosition ().y; }
 
-    float GetviewCenter(){ return view.getCenter ().y;}
+    float GetviewCenter() { return view.getCenter ().y; }
+
+    void View(bool testview);
 
 private:
-    sf::Vector2f WindowSize;
 
-    void View();
 
     void Addstring(std::string message);
 
+    sf::Vector2f WindowSize;
     float score;
     sf::View view;
     sf::Text text;
     sf::Font font;
     Hero &hero;
     const int mdistance = 300;
-    const int checkpoint=3000;
+    const int checkpoint = 3000;
 
 };
 

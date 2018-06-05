@@ -30,6 +30,7 @@ public:
 
     void Render();
 
+
     Window *GetWindow() { return &window; };
 
 private:

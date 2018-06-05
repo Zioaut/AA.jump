@@ -21,7 +21,7 @@ void Hero::Reset() {
 }
 
 
-void Hero::Create_Sethero() {
+void Hero::Create_Sethero() {//SETTA CARATTERISTICHE DI HERO
 
     doodle.setPosition (100, 15000);
     doodle.setSize (sf::Vector2f (20, 40));
@@ -36,7 +36,7 @@ void Hero::Update() {
 }
 
 
-void Hero::Shoot() {
+void Hero::Shoot() {//FUNZIONE CHE SPARA PROIETTILE 
 
     if (sf::Keyboard::isKeyPressed (sf::Keyboard::C)) {
         Create_Bullet ();
@@ -48,7 +48,7 @@ void Hero::Shoot() {
         Setnumbullet ();
 
         if (bullet[j].getPosition ().y < doodle.getPosition ().y - doodle.getSize ().y - 100) {
-            bullet.erase (bullet.begin () + j);
+            bullet.erase (bullet.begin () + j); //ERASE SE BULLET SUPERA UN CERTO RANGE
 
         }
     }
@@ -57,25 +57,23 @@ void Hero::Shoot() {
 }
 
 
-float Hero::Jump() {
+void Hero::Jump() {
     if (sf::Keyboard::isKeyPressed (sf::Keyboard::D) && !sf::Keyboard::isKeyPressed (sf::Keyboard::A)) {
         velocity.y -= gravity;
         doodle.setPosition (doodle.getPosition ().x + velocity.x, doodle.getPosition ().y - velocity.y);
-
+        //MI POSIZIONA HERO A DESTRA RISPETTO A POSIZIONE PRECEDENTE
     } else if (sf::Keyboard::isKeyPressed (sf::Keyboard::A) && !sf::Keyboard::isKeyPressed (sf::Keyboard::D)) {
         velocity.y -= gravity;
         doodle.setPosition (doodle.getPosition ().x - velocity.x, doodle.getPosition ().y - velocity.y);
-
+        //MI POSIZIONA HERO A SINISTRA RISPETTO A POSIZIONE PRECEDENTE
     }
 
     velocity.y -= gravity;      //come si muove l'eroe se non si preme nessun tasto
     doodle.setPosition (doodle.getPosition ().x, doodle.getPosition ().y - velocity.y);
 
-
-    return velocity.y;
 }
 
-void Hero::Collision() {
+bool Hero::Collision() {
 
     if (velocity.y == 0) {
         doodle.setPosition (doodle.getPosition ().x, doodle.getPosition ().y);
@@ -83,17 +81,25 @@ void Hero::Collision() {
         //se arriva alla sua massima altezza torna indietro per effetto della gravita
     }
 
-    if (doodle.getPosition ().x <= pointzero) {
+    if (doodle.getPosition ().x <= pointzero) { //se l'eroe arriva alla grandezza massima o minima di x riappare dal lato opposto
         doodle.setPosition (maxsize, doodle.getPosition ().y);
+        repos = true;
     } else if (doodle.getPosition ().x >= maxsize) {
         doodle.setPosition (pointzero, doodle.getPosition ().y);
-    }//se l'eroe arriva alla grandezza massima o minima di x riappare dal lato opposto
+        repos = true;
+    }
+
+    return repos;
+   
 }
 
 
-bool Hero::GameOver() {
-    doodle.setFillColor (sf::Color::Black);
-    bool death = true;
+bool Hero::GameOver(bool death) {
+    SetDeath ();//SETTA MORTE A TRUE
+    if (death) {
+        doodle.setFillColor (sf::Color::Black);
+    }
+    return death;
 }
 
 void Hero::Reneder(sf::RenderWindow &window) {
@@ -108,14 +114,14 @@ float Hero::Setvelocity() {
 }
 
 
-void Hero::Create_Bullet() {
+void Hero::Create_Bullet() {//GENERALITA DI BULLET
     b.setRadius (5);
     b.setFillColor (sf::Color::Red);
     b.setPosition (doodle.getPosition ().x + doodle.getSize ().x / 2, doodle.getPosition ().y);
 }
 
 
-sf::FloatRect Hero::GetposBullet() {
+sf::FloatRect Hero::GetposBullet() {//FUNZIONE CHE RITORNA IL RECT DI BULLET PER INTERSECT
     sf::FloatRect bulletshape;
     for (auto &i : bullet) {
         bulletshape = i.getGlobalBounds ();
@@ -169,4 +175,17 @@ int Hero::Setnumbullet() {
     Changed ();
     return numbullet;
 }
+
+sf::Vector2f Hero::SetPositionTest(int index) {
+    doodle.setPosition (doodle.getPosition ().x + index, doodle.getPosition ().y + index);
+    return {doodle.getPosition ().x, doodle.getPosition ().y};
+}
+
+void Hero::SetDeath() {
+    if (death) {
+        death = false;
+    } else death = true;
+}
+
+
 

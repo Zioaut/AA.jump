@@ -14,16 +14,15 @@ public:
     explicit StrategyDefenseRight(float maxX, float maxY, bool berserk, int anger) :
             StrategyMove (maxX, maxY), berserk (berserk), anger (anger) {};
 
-    sf::Vector2f Strategy_move() override {
+    sf::Vector2f Strategy_move() override {//NEMICO SI SPOSTA A SINISTRA 
         sf::Vector2f item;
         item.x = -maxX;
         item.y = maxY;
-        if (berserk) {
+        if (berserk) {//SE TRUE SI MUOVE PIU VELOCMENTE
             anger = rand () % 3 + 1;
             item.x = -maxX * anger;
         }
         return item;
-
     }
 
 private:

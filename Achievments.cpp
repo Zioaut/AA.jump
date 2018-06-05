@@ -31,7 +31,7 @@ void Achievments::Modify(int ky, int j, int p, int kg, int nb) {
 }
 
 
-void Achievments::LoadAch() {
+void Achievments::LoadAch() {//CARICA LA STRINGA INDICATA DA STRING[INDEX]
     std::ifstream in ("achievements.txt");
     int j = 0;
     while (in) {
@@ -39,7 +39,7 @@ void Achievments::LoadAch() {
     }
 }
 
-void Achievments::Display() {
+void Achievments::Display() {//SCRIVE SUL TERMINALE ACHIVMENTS SE SODDISFATTA CONDIZIONE
     if (point >= 10000 && a == 0) {
         std::cout << string[3] << std::endl;
         a = 1;

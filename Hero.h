@@ -12,10 +12,10 @@
 #include <list>
 
 
-class Hero: public Subject {
+class Hero : public Subject {
 public:
 
-    Hero(float g, float s, sf::Vector2f v, int j, int k, int kg, int p);
+    explicit Hero(float g, float s, sf::Vector2f v, int j, int k, int kg, int p);
 
     ~Hero();
 
@@ -25,15 +25,15 @@ public:
 
     void Detach(Observer *o) override;
 
-    float Jump();
+    void Jump();
 
     void Update();
 
     void Shoot();
 
-    void Collision();
+    bool Collision();
 
-    bool GameOver();
+    bool GameOver(bool death);
 
     void Reneder(sf::RenderWindow &window);
 
@@ -56,20 +56,29 @@ public:
     sf::FloatRect GetposBullet();
 
     void Changed() { Notify (); };
-
+    // FUNZIONI CHE SETTANO VARIABILI PER ACHIEVMENTS
     int SetKillYellow();
 
     int SetJump();
 
-    int SetKillGreen();
+    int SetKillGreen(); 
 
     int Setpoint(int pt);
 
     int Setnumbullet();
+    
+    void SetDeath();
+    
+    bool GetDeath() { return death; }
+    //FUNZIONI CHE SERVONO PER IL TEST..
 
     sf::Color GetColor() { return doodle.getFillColor (); }
+    
+    int GetBulletsize() { return static_cast<int>(bullet.size ()); }
 
-    bool GetDeath() { return death; }
+    sf::Vector2f SetPositionTest(int index);//MI SETTA POSZIONE DI HERO 
+
+   
 
 
 protected:
@@ -80,14 +89,15 @@ protected:
     sf::CircleShape b;
     std::vector<sf::CircleShape> bullet;
     float shoot;
-    int killYellow;
+    int killYellow;//VARIABILI PER ACHIEVMENTS
     int jump_block;
     int point;
     int killGreen;
     int numbullet;
     bool death = false;
-    const int pointzero=0;
-    const int maxsize=500;
+    const int pointzero = 0;//COORDINATE MAPPA
+    const int maxsize = 500;
+    bool repos = false;//BOOLENANO PER CONTROLLO USCITA DALLA MAPPA
 
 
 };

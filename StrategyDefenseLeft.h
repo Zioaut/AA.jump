@@ -14,12 +14,12 @@ public:
     StrategyDefenseLeft(float maxX, float maxY, bool b, int count)
             : StrategyMove (maxX, maxY), berserk (b), count (count) {};
 
-    sf::Vector2f Strategy_move() override {
+    sf::Vector2f Strategy_move() override {//NEMICO SI SPOSTA A DESTRA
         sf::Vector2f item;
         item.x = maxX;
         item.y = maxY;
         if (berserk) {
-            count = rand () % 3 + 1;
+            count = rand () % 3 + 1;//NEMICO SI MUOVE PIU VELOCMENTE SE TRUE
             item.x = maxX * count;
         }
         return item;

@@ -14,16 +14,16 @@ Maps::Maps(sf::Vector2f WindS, float sc, Hero &h) : WindowSize (WindS), score (s
 }
 
 
-void Maps::Reset() {
+void Maps::Reset() {//GENERALITA DELLA VIDEOCAMERA E PUNTEGGIO
     SetTablepoint ();
     score = 0;
-    view = sf::View (sf::Vector2f (300, 15000), sf::Vector2f (400, 400));
-    view.zoom (1.5f);
+    view = sf::View (sf::Vector2f (300, 15000), sf::Vector2f (600, 600));
+
 
 }
 
 
-void Maps::SetTablepoint() {
+void Maps::SetTablepoint() {//GENERALITA DEL TESTO
     font.loadFromFile ("arial.ttf");
     text.setFont (font);
     text.setString ("");
@@ -37,7 +37,6 @@ void Maps::SetTablepoint() {
 
 void Maps::Render(sf::RenderWindow &window) {
     window.draw (text);
-
     window.setView (view);
 
 }
@@ -46,7 +45,7 @@ Maps::~Maps() {
 
 }
 
-void Maps::Increase_Score() {
+void Maps::Increase_Score() {//INCREMENTO DELLO SCORE
     score = WindowSize.y - hero.GetPosy () - mdistance;
     if (hero.Getvelocity () >= 0) {
         Addstring (std::to_string (static_cast<int>(score)));
@@ -63,15 +62,19 @@ void Maps::Addstring(std::string message) {
 
 void Maps::Update() {
     Increase_Score ();
-    View ();
+    View (false);
 
 }
 
-void Maps::View() {
-    if (hero.GetPosy () < view.getCenter ().y) {
+void Maps::View(bool testview) {//SETTAGGIO TELECAMERA CON POSIZIONE DELL'HERO
+    if (hero.GetPosy () < view.getCenter ().y || testview) {
         view.setCenter (view.getCenter ().x, hero.GetPosy ());
-        text.setPosition (text.getPosition ().x, hero.GetPosy () - mdistance);
+        text.setPosition (text.getPosition ().x, hero.GetPosy () - mdistance);//SETTAGGIO POS TEXT
+    }
+
+    if (hero.GetPosy () > view.getCenter ().y + mdistance) {
+        hero.GameOver (true);//MI DA LA MORTE DI HERO
+
+
     }
 }
-
-

@@ -29,6 +29,7 @@ public:
 
     void Draw(sf::Drawable &drawable);
 
+    void SetDone() { isDone = true; }//SETTA DONE A TRUE
 
 private:
     void Setup(const std::string &title, const sf::Vector2u &size);

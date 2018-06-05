@@ -7,6 +7,7 @@
 
 Block::Block(sf::Vector2i windSize, int bls, Enemy &e, Maps &m, Hero &h) :
         windowSize (windSize), blockSize (bls), enemy (e), maps (m), hero (h) {
+
     SetBlock ();
     velocity = sf::Vector2f (0.1, 0);
 
@@ -19,11 +20,12 @@ Block::~Block() {
 }
 
 void Block::Update() {
-    Collision ();
+    Collision (false);
 
 }
 
 int Block::SetBlock() {
+
     block.setSize (sf::Vector2f (40, 10));
     block.setFillColor (sf::Color::Red);
     block2.setFillColor (sf::Color::Blue);
@@ -32,8 +34,8 @@ int Block::SetBlock() {
         for (int j = 0; j < 50; ++j) {
             blockcreate += 1;
             decision = rand () % nrand;
-            if (decision >= choose) {
-                Random ();
+            if (decision >= choose) {//IF CONTROLLA QUALE BLOCK SETTARE E DOVE SETTARLO 
+                Random ();//FUNZIONE RANDOMICA CHE RITONA UN VETTORE DI POSIZIONE 
                 block2.setPosition (random.x * blockSize, random.y + minrange);
                 blocks2.emplace_back (block2);
                 minrange -= bscale1;
@@ -45,7 +47,7 @@ int Block::SetBlock() {
             }
         }
     }
-    if (minrange <= changedifficulty && minrange > 0) {
+    if (minrange <= changedifficulty && minrange > 0) {//AUMENTA LA DISTANZA TRA I BLOCCHI
         for (int i = 0; i < 30; ++i) {
             decision = rand () % nrand;
             blockcreate += 1;
@@ -98,29 +100,30 @@ sf::Vector2i Block::Random() {
 
 
 
-void Block::Collision() {
+void Block::Collision(bool collide) {
     for (auto i = 0; i < blocks.size (); ++i) {
-        if (blocks[i].getGlobalBounds ().intersects (hero.GetBound ()) && hero.Getvelocity () <= mindistance) {
+        if ((blocks[i].getGlobalBounds ().intersects (hero.GetBound ()) && hero.Getvelocity () <= mindistance) ||
+            collide) {//CONTROLLA LA COLLISIONE TRA BLOCK E HERO E MI RISETTA LA VELOCITA
             hero.Setvelocity ();
-            hero.SetJump ();
-            //risetta la velocità di h
+            hero.SetJump ();//VIENE INCREMENTATO VARIABILE SETJUMP 
+           
         }
         if (blocks[i].getPosition ().y > hero.GetPosy () + bdistance) {
-            blocks.erase (blocks.begin () + i);
+            Erase (i);//FA ERASE DEL BLOCCO i QUANDO SUPERA IL HERO DI BDISTANCE
         }
         if (blocks[i].getGlobalBounds ().intersects (enemy.GetBounden1 ())) {
             blocks[i].setPosition (blocks[i].getPosition ().x, enemy.GetPosy_en1 ());
-        }
+        }//FUNZIONE CHE MI SETTA IL NEMICO SOPRA IL BLOCCO NEL CASO DELL'INTERSECT
     }
 
     for (auto j = 0; j < blocks2.size (); ++j) {
-        if (blocks2[j].getGlobalBounds ().intersects (hero.GetBound ()) &&
-            hero.Getvelocity () <= mindistance) {
+        if ((blocks2[j].getGlobalBounds ().intersects (hero.GetBound ()) && hero.Getvelocity () <= mindistance) ||
+            collide) {
             hero.Setvelocity ();
             hero.SetJump ();
         }
         if (blocks2[j].getPosition ().y > hero.GetPosy () + bdistance) {
-            blocks2.erase (blocks2.begin () + j);
+            Erase2 (j);
         }
 
     }
@@ -128,22 +131,35 @@ void Block::Collision() {
 }
 
 
-void Block::Move() {
+bool Block::Move() {
     for (auto i = 0; i < blocks2.size (); ++i) {
-        if (maps.GetScore () > changedifficulty) {
+        if (maps.GetScore () > changedifficulty) {//AUMENTA VELOCITA QUANDO SCORE SUPERA CHANHEDIFFICULTY
             blocks2[i].move (velocity.x + 0.05f, velocity.y);
         } else {
             blocks2[i].move (velocity.x, velocity.y);
         }
 
-        if (blocks2[i].getPosition ().x < pointzero) {
-            blocks2[i].setPosition (windowSize.x, blocks2[i].getPosition ().y);
-        } else if (blocks2[i].getPosition ().x > windowSize.x) {
+        if (blocks2[i].getPosition ().x >= windowSize.x) { 
             blocks2[i].setPosition (pointzero, blocks2[i].getPosition ().y);
-        }
+            repos = true;
+        }//SE BLOCCO MAGGIORE DELLA GRANDEZZA  MAPPA TORNA ALLO ZERO
     }
+    return repos;
 }
 
+
+float Block::GetposBlock(int index) {
+    return blocks[index].getPosition ().y;
+}
+
+sf::Vector2f Block::TesPosBlock2(int index, int pos) {
+    blocks2[index].setPosition (blocks2[index].getPosition ().x + pos, blocks2[index].getPosition ().y + pos);
+    return {blocks2[index].getPosition ().x, blocks2[index].getPosition ().y};
+}
+
+float Block::GetBlock2posx(int index) {
+    return blocks2[index].getPosition ().x;
+}
 
 
 

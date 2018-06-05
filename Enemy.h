@@ -30,11 +30,9 @@ public:
 
     void Death_En2();
 
-    void Death_En1();
+    void Death_En1(bool test );
 
     void Death_En3();
-
-    void Death_En4();
 
     void Render(sf::RenderWindow &window);
 
@@ -49,9 +47,14 @@ public:
     float GetPosy_en1();
 
     void Move3();
+    
+    void EraseEn1(int index){  enemy1_container.erase (enemy1_container.begin ()+index);}
 
-    void Explosion(float count);
+    void EraseEn2(int index){enemy2_container.erase (enemy2_container.begin ()+index);}
 
+    void EraseEn3(int index){enemy3_container.erase (enemy3_container.begin ()+index);}
+    
+//FUNZIONI CHE SERVONO PER IL TEST..
     int Getposy(){return pos.y;}
 
     int Getposy2(){return pos2.y;}
@@ -61,17 +64,28 @@ public:
     int GetSizeEn2(){return static_cast<int>(enemy2_container.size ());}  
     
     int GetSizeEn3(){ return static_cast<int>(enemy3_container.size ());}
+    
+    
+    sf::Vector2f SetposEntest(int index);
+
+    sf::FloatRect TestRectEn1(int index);
+
+    sf::Vector2f SetposEn2test(int index);//SETTANO POSIZIONI E BOUND DI ENEMY 1 E 2
+
+    sf::FloatRect TestRectEn2(int index);
+
+
+
+
 
 private:
     sf::Vector2i windowSize;
     sf::RectangleShape enemy1;
     sf::RectangleShape enemy2;
     sf::RectangleShape enemy3;
-    sf::RectangleShape enemy4;
     std::vector<sf::RectangleShape> enemy1_container;
     std::vector<sf::RectangleShape> enemy2_container;
     std::vector<sf::RectangleShape> enemy3_container;
-    std::vector<sf::RectangleShape> enemy4_container;
     std::vector<sf::RectangleShape>::iterator itr;
     std::vector<sf::RectangleShape>::iterator itr2;
     sf::Vector2f e_velocity;
@@ -81,16 +95,14 @@ private:
     sf::Vector2i pos2;
     Hero &hero;
     StrategyMove *strategy;
-    int enemyrange = 10000;
+    int enemyrange = 10000;//INDICI CHE INDICANO DOVE SETTARE NEMICO 
     int enemyrange2 = 13000;
-    int enemyrange3 = 12000;
-    const int scale = 5000;
+    const int scale = 5000;//DISTANZA TRA LORO
     const int distance = 300;
     int randomy = rand () % 100 + 1;
     int count = 0;
-    const float increment=0.005f;
-    const int choose_range=60;
-    const int explosion=50;
+    const int choose_range=60;//CONSTANTE PER IDENTIFICARE LA ZONA DI SETTAGGIO
+
 };
 
 
